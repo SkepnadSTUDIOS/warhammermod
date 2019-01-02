@@ -1,0 +1,34 @@
+item.cartridge.name=cartridge
+item.bullet.name=bullet
+item.grenade.name=grenade
+
+item.musket.name=musket
+item.nuln repeater handgun.name=nuln repeater handgun
+item.flintlock pistol.name=flintlock pistol
+item.grenade launcher.name=grenade launcher
+
+item.wooden spear.name=wooden spear
+item.stone spear.name=stone spear
+item.iron spear.name=iron spear
+item.gold spear.name=gold spear
+item.diamond spear.name=diamond spear
+
+item.diamond warhammer.name=diamond warhammer
+item.wooden warhammer.name=wooden warhammer
+item.stone warhammer.name=stone warhammer
+item.iron warhammer.name=iron warhammer
+item.gold warhammer.name=ghal maraz
+
+item.wooden knife.name=wooden knife
+item.stone knife.name=stone knife
+item.iron knife.name=iron knife
+item.gold knife.name=gold knife
+item.diamond knife.name=diamond knife
+
+item.diamond halberd.name=diamond halberd
+item.gold halberd.name=gold halberd
+item.iron halberd.name=iron halberd
+item.stone halberd.name=stone halberd
+item.wooden halberd.name=wooden halberd
+
+tile.tblock.name=tblock
