@@ -6,6 +6,8 @@ item.musket.name=musket
 item.nuln repeater handgun.name=nuln repeater handgun
 item.flintlock pistol.name=flintlock pistol
 item.grenade launcher.name=grenade launcher
+item.diamond gunsword.name=diamond gunsword
+item.iron gunsword.name=iron gunsword
 
 item.wooden spear.name=wooden spear
 item.stone spear.name=stone spear

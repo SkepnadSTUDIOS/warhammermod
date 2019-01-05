@@ -52,17 +52,14 @@ public class guntemplate extends ItemBow {
             ammocounter = itemstack.getTagCompound();
             if (ammocounter == null) {
                 ammocounter = new NBTTagCompound();
-                System.out.println("used first ooooooooooooooooooooo");
             }
             if (playerIn.capabilities.isCreativeMode) {
                 readytoFire = true;
             } else if (ammocounter.getInteger("ammo") <= 0) {
                 readytoFire = false;
-                System.out.println("not ready to reload +++++++++++++++++++++++++++++");
 
             } else {
                 readytoFire = true;
-                System.out.println("ready to reload +++++++++++++++++++++++++++++");
             }
         }
 
@@ -153,7 +150,6 @@ public class guntemplate extends ItemBow {
                     ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") - 1);
                     stack.setTagCompound(ammocounter);
                 }
-                System.out.println(ammocounter.getInteger("ammo") + "ammocount...............");
             }
         }
     }
