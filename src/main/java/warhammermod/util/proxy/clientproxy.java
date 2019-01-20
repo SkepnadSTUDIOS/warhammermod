@@ -8,16 +8,14 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.EntityGrenade;
 import warhammermod.Entities.Entityspear;
 import warhammermod.Entities.entitybullet;
 import warhammermod.Entities.render.*;
-import warhammermod.Items.gunswtemplate;
 import warhammermod.Items.shieldtemplate;
-import net.minecraft.init.Items;
+import warhammermod.util.confighandler.confighandler;
 
 @SideOnly(Side.CLIENT)
 public class clientproxy extends commonproxy{
@@ -38,7 +36,11 @@ public class clientproxy extends commonproxy{
             ModelLoader.registerItemVariants(item,new ResourceLocation[]{i_sword_standing,i_sword_fire});
             ModelLoader.setCustomMeshDefinition(item,(stack -> {if(value==1){return i_sword_standing;}else {return i_sword_fire;}}));
         }
-
+        else if(item.getRegistryName().toString().equals("warhammermod:nuln repeater handgun")){
+            if (confighandler.Config_enable.repeater_3D_model){
+                ModelLoader.setCustomModelResourceLocation(item,meta,new ModelResourceLocation(item.getRegistryName(),id));}
+            else{ModelLoader.setCustomModelResourceLocation(item,meta,new ModelResourceLocation(item.getRegistryName()+"2",id));}
+        }
         else {
             ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
         }

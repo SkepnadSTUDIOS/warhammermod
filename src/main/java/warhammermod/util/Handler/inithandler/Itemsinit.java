@@ -21,8 +21,8 @@ public class Itemsinit {
     public static final Item grenadeln = new grenadelaunchertemplate("grenade launcher", 1, 40,Config_enable.grenadelauncher_included);
     public static final Item Cartridge = new Cartridge("cartridge");
     public static final Item Grenade = new Grenade("grenade",Config_enable.grenadelauncher_included);
-    public static final Item diamond_gunsword = new gunswtemplate(Item.ToolMaterial.DIAMOND,"diamond gunsword");
-    public static final Item iron_gunsword = new gunswtemplate(Item.ToolMaterial.IRON,"iron gunsword");
+    public static final Item diamond_gunsword = new gunswtemplate(Item.ToolMaterial.DIAMOND,"diamond gunsword",Config_enable.gunsword_included);
+    public static final Item iron_gunsword = new gunswtemplate(Item.ToolMaterial.IRON,"iron gunsword",Config_enable.gunsword_included);
 
 
     public static final ItemTool stone_spear = new speartemplate("stone spear", Item.ToolMaterial.STONE,Config_enable.spears_included);

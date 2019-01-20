@@ -1,0 +1,14 @@
+{
+  "parent": "item/handheld",
+  "textures": {
+    "layer0": "warhammermod:items/diamond_gunsword"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "firing": 1
+      },
+      "model": "item/gunsword2"
+    }
+  ]
+}

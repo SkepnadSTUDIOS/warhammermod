@@ -23,8 +23,13 @@ public class confighandler {
         @Config.RequiresMcRestart
         public static boolean repeater_handgun_inlcuded =true;
         @Config.RequiresMcRestart
+        public static boolean repeater_3D_model = true;
+        @Config.RequiresMcRestart
         public static boolean grenadelauncher_included = true;
         @Config.RequiresMcRestart
         public static boolean shields_included = true;
+        @Config.RequiresMcRestart
+        public static boolean gunsword_included = true;
+
     }
 }
