@@ -22,7 +22,7 @@ public class confighandler {
         public static boolean pistol_included =true;
         @Config.RequiresMcRestart
         public static boolean repeater_handgun_inlcuded =true;
-        @Config.RequiresMcRestart
+
         public static boolean repeater_3D_model = true;
         @Config.RequiresMcRestart
         public static boolean grenadelauncher_included = true;

@@ -36,6 +36,15 @@ public class gunswtemplate extends ItemSword{
             }
         });
         BlockDispenser.DISPENSE_BEHAVIOR_REGISTRY.putObject(this, ItemArmor.DISPENSER_BEHAVIOR);
+        this.addPropertyOverride(new ResourceLocation("reloading"), new IItemPropertyGetter()
+        {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
+            {
+                reloader=stack.getTagCompound();
+                return entityIn != null && entityIn instanceof EntityPlayer && !((EntityPlayer) entityIn).capabilities.isCreativeMode && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack  && (reloader==null || reloader.getInteger("ammo")<=0) ? 2.0F : 0.0F;
+            }
+        });
 
 
         if(enabled){ Itemsinit.ITEMS.add(this);}
@@ -45,6 +54,7 @@ public class gunswtemplate extends ItemSword{
     private int timetoreload;
     private int ammocount = 0;
     private NBTTagCompound ammocounter;
+    private NBTTagCompound reloader;
     public boolean readytoFire;
     public int damage = 8;
 
@@ -65,7 +75,7 @@ public class gunswtemplate extends ItemSword{
                 readytoFire = true;
             }
         }
-        //if(readytoFire){clientproxy.value=0;}
+
 
         boolean flag = !this.findAmmo(playerIn).isEmpty();
         ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
@@ -158,7 +168,6 @@ public class gunswtemplate extends ItemSword{
                     stack.setTagCompound(ammocounter);
                 }
             }
-            //if(worldIn.isRemote){clientproxy.value=1;}
         }
 
     }

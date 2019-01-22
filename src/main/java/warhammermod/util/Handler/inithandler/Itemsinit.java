@@ -2,6 +2,7 @@ package warhammermod.util.Handler.inithandler;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemShield;
+import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -31,11 +32,11 @@ public class Itemsinit {
     public static final ItemTool gold_spear = new speartemplate("gold spear", Item.ToolMaterial.GOLD,Config_enable.spears_included);
     public static final ItemTool diamond_spear = new speartemplate("diamond spear", Item.ToolMaterial.DIAMOND,Config_enable.spears_included);
 
-    public static final ItemTool diamond_warhammer = new heavytemplate("diamond warhammer", Item.ToolMaterial.DIAMOND,6.2F,3.1F,Config_enable.hammers_included);
-    public static final ItemTool wooden_warhammer = new heavytemplate("wooden warhammer", Item.ToolMaterial.WOOD,6.2F,3.1F,Config_enable.hammers_included);
-    public static final ItemTool stone_warhammer = new heavytemplate("stone warhammer", Item.ToolMaterial.STONE,6.2F,3.1F,Config_enable.hammers_included);
-    public static final ItemTool iron_warhammer = new heavytemplate("iron warhammer", Item.ToolMaterial.IRON,6.2F,3.1F,Config_enable.hammers_included);
-    public static final ItemTool gold_warhammer = new heavytemplate("gold warhammer", Item.ToolMaterial.IRON,7.1F,2.7F,Config_enable.hammers_included);
+    public static final ItemSword diamond_warhammer = new heavytemplate("diamond warhammer", Item.ToolMaterial.DIAMOND,6.2F,3.1F,Config_enable.hammers_included);
+    public static final ItemSword wooden_warhammer = new heavytemplate("wooden warhammer", Item.ToolMaterial.WOOD,6.2F,3.1F,Config_enable.hammers_included);
+    public static final ItemSword stone_warhammer = new heavytemplate("stone warhammer", Item.ToolMaterial.STONE,6.2F,3.1F,Config_enable.hammers_included);
+    public static final ItemSword iron_warhammer = new heavytemplate("iron warhammer", Item.ToolMaterial.IRON,6.2F,3.1F,Config_enable.hammers_included);
+    public static final ItemSword gold_warhammer = new heavytemplate("gold warhammer", Item.ToolMaterial.IRON,7.1F,2.7F,Config_enable.hammers_included);
 
     public static final ItemTool diamond_knife = new knifetemplate("diamond knife", Item.ToolMaterial.DIAMOND,Config_enable.knife_included);
     public static final ItemTool wooden_knife = new knifetemplate("wooden knife", Item.ToolMaterial.WOOD,Config_enable.knife_included);
@@ -43,11 +44,11 @@ public class Itemsinit {
     public static final ItemTool iron_knife = new knifetemplate("iron knife", Item.ToolMaterial.IRON,Config_enable.knife_included);
     public static final ItemTool gold_knife = new knifetemplate("gold knife", Item.ToolMaterial.GOLD,Config_enable.knife_included);
 
-    public static final ItemTool diamond_halberd = new halberdtemplate("diamond halberd", Item.ToolMaterial.DIAMOND,Config_enable.halberds_included);
-    public static final ItemTool wooden_halberd = new halberdtemplate("wooden halberd", Item.ToolMaterial.WOOD,Config_enable.halberds_included);
-    public static final ItemTool stone_halberd = new halberdtemplate("stone halberd", Item.ToolMaterial.STONE,Config_enable.halberds_included);
-    public static final ItemTool iron_halberd = new halberdtemplate("iron halberd", Item.ToolMaterial.IRON,Config_enable.halberds_included);
-    public static final ItemTool gold_halberd = new halberdtemplate("gold halberd", Item.ToolMaterial.GOLD,Config_enable.halberds_included);
+    public static final ItemSword diamond_halberd = new halberdtemplate("diamond halberd", Item.ToolMaterial.DIAMOND,5.4F,-2.8F,Config_enable.halberds_included);
+    public static final ItemSword wooden_halberd = new halberdtemplate("wooden halberd", Item.ToolMaterial.WOOD,5.4F,-2.8F,Config_enable.halberds_included);
+    public static final ItemSword stone_halberd = new halberdtemplate("stone halberd", Item.ToolMaterial.STONE,5.4F,-2.8F,Config_enable.halberds_included);
+    public static final ItemSword iron_halberd = new halberdtemplate("iron halberd", Item.ToolMaterial.IRON,5.4F,-2.8F,Config_enable.halberds_included);
+    public static final ItemSword gold_halberd = new halberdtemplate("gold halberd", Item.ToolMaterial.GOLD,5.4F,-2.8F,Config_enable.halberds_included);
 
     public static final ItemShield shield = new shieldtemplate("empire shield", Config_enable.shields_included);
     public static final ItemShield shield2 = new shieldtemplate("dark elf shield", Config_enable.shields_included);

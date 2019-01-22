@@ -19,34 +19,30 @@ import warhammermod.util.confighandler.confighandler;
 
 @SideOnly(Side.CLIENT)
 public class clientproxy extends commonproxy{
-    public static int value=1;
+    public static int repeater_value=0;
     public void registryitemrenderer(Item item, int meta, String id) {
         if(item instanceof shieldtemplate){
             ModelLoader.setCustomModelResourceLocation(item, meta,new ModelResourceLocation("minecraft:shield",id));
-
-        }else if(item.getRegistryName().toString().equals("warhammermod:diamond gunsword")){
-            ModelResourceLocation sword_standing = new ModelResourceLocation("warhammermod:gunsword",id);
-            ModelResourceLocation sword_fire = new ModelResourceLocation("warhammermod:gunsword2",id);
-            ModelLoader.registerItemVariants(item,new ResourceLocation[]{sword_standing,sword_fire});
-            ModelLoader.setCustomMeshDefinition(item,(stack -> {if(value==1){return sword_standing;}else {return sword_fire;}}));
-        }
-        else if(item.getRegistryName().toString().equals("warhammermod:iron gunsword")){
-            ModelResourceLocation i_sword_standing = new ModelResourceLocation("warhammermod:iron_gunsword",id);
-            ModelResourceLocation i_sword_fire = new ModelResourceLocation("warhammermod:iron_gunsword2",id);
-            ModelLoader.registerItemVariants(item,new ResourceLocation[]{i_sword_standing,i_sword_fire});
-            ModelLoader.setCustomMeshDefinition(item,(stack -> {if(value==1){return i_sword_standing;}else {return i_sword_fire;}}));
         }
         else if(item.getRegistryName().toString().equals("warhammermod:nuln repeater handgun")){
-            if (confighandler.Config_enable.repeater_3D_model){
-                ModelLoader.setCustomModelResourceLocation(item,meta,new ModelResourceLocation(item.getRegistryName(),id));}
-            else{ModelLoader.setCustomModelResourceLocation(item,meta,new ModelResourceLocation(item.getRegistryName()+"2",id));}
+            ModelResourceLocation repeater_3d = new ModelResourceLocation("warhammermod:nuln repeater handgun3d",id);
+            ModelResourceLocation repeater_3d2 = new ModelResourceLocation("warhammermod:nuln repeater handgun3d2",id);
+            ModelResourceLocation repeater_3d3 = new ModelResourceLocation("warhammermod:nuln repeater handgun3d3",id);
+            ModelResourceLocation repeater_normal = new ModelResourceLocation("warhammermod:nuln repeater handgun",id);
+            ModelLoader.registerItemVariants(item,new ResourceLocation[]{repeater_3d,repeater_3d2,repeater_3d3,repeater_normal});
+            ModelLoader.setCustomMeshDefinition(item,(stack -> {if(confighandler.Config_enable.repeater_3D_model && repeater_value ==1){
+                return repeater_3d;}
+                else if (confighandler.Config_enable.repeater_3D_model && repeater_value==2){return repeater_3d2;}
+                else if (confighandler.Config_enable.repeater_3D_model){return repeater_3d3;}
+                else {return repeater_normal;}
+            }));
         }
         else {
             ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
         }
     }
 
-    public static void renderentity(){
+    public void renderentity(){
         RenderingRegistry.registerEntityRenderingHandler(entitybullet.class, new IRenderFactory<entitybullet>() {
             @Override
             public Render<? super entitybullet> createRenderFor(RenderManager manager) {

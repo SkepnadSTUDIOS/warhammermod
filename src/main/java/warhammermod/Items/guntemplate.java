@@ -5,21 +5,29 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
+import net.minecraft.item.IItemPropertyGetter;
 import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+import warhammermod.util.proxy.clientproxy;
+
+import javax.annotation.Nullable;
 
 public class guntemplate extends ItemBow {
     private int magsize;
     private int timetoreload;
     private int ammocount = 0;
     private NBTTagCompound ammocounter;
+    private NBTTagCompound reloader;
 
 
 
@@ -27,7 +35,6 @@ public class guntemplate extends ItemBow {
 
     public boolean readytoFire;
     public int damage;
-    boolean noammo;
 
 
     public guntemplate(String name, int MagSize, int time, int damagein, boolean enabled) {
@@ -40,9 +47,15 @@ public class guntemplate extends ItemBow {
         this.maxStackSize = 1;
         this.setMaxDamage(384);
         damage = damagein;
-
-
-
+        this.addPropertyOverride(new ResourceLocation("reloading"), new IItemPropertyGetter()
+        {
+            @SideOnly(Side.CLIENT)
+            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
+            {
+                reloader=stack.getTagCompound();
+                return entityIn != null && entityIn instanceof EntityPlayer && !((EntityPlayer) entityIn).capabilities.isCreativeMode && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack  && (reloader==null || reloader.getInteger("ammo")<=0) ? 1.0F : 0.0F;
+            }
+        });
 
     }
     @Override
@@ -63,17 +76,17 @@ public class guntemplate extends ItemBow {
             }
         }
 
+
         boolean flag = !this.findAmmo(playerIn).isEmpty();
         ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
         if (ret != null) return ret;
 
-        if (!playerIn.capabilities.isCreativeMode && !flag) {
+        if (!playerIn.capabilities.isCreativeMode && !flag && !readytoFire) {
             return flag ? new ActionResult<>(EnumActionResult.PASS, itemstack) : new ActionResult<>(EnumActionResult.FAIL, itemstack);
         } else {
             playerIn.setActiveHand(handIn);
             return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
         }
-
     }
 
 
@@ -134,6 +147,7 @@ public class guntemplate extends ItemBow {
                     }
 
                 }
+
             }
             if(!entityplayer.capabilities.isCreativeMode && !worldIn.isRemote) {
                 ammocounter = stack.getTagCompound();
@@ -148,9 +162,26 @@ public class guntemplate extends ItemBow {
                     ammocount = 0;
                 } else {
                     ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") - 1);
+
                     stack.setTagCompound(ammocounter);
                 }
             }
+            if(worldIn.isRemote && stack.getDisplayName().equals("nuln repeater handgun")){
+                ammocounter = stack.getTagCompound();
+                if (ammocounter == null) {
+                    ammocounter = new NBTTagCompound();}
+                if(ammocounter.getInteger("fire_pos")==1){
+                    clientproxy.repeater_value=1;
+                    ammocounter.setInteger("fire_pos",2);}
+                else if(ammocounter.getInteger("fire_pos")==2){
+                    clientproxy.repeater_value=2;
+                    ammocounter.setInteger("fire_pos",0);
+                }
+                else {clientproxy.repeater_value=0;ammocounter.setInteger("fire_pos",1);}
+                stack.setTagCompound(ammocounter);
+            }
+
+
         }
     }
 
