@@ -4,8 +4,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemShield;
 import net.minecraft.item.ItemSword;
 import net.minecraft.item.ItemTool;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Items.*;
 import warhammermod.util.confighandler.confighandler.Config_enable;
 

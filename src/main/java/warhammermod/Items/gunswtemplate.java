@@ -15,7 +15,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
-import warhammermod.util.proxy.clientproxy;
 
 import javax.annotation.Nullable;
 

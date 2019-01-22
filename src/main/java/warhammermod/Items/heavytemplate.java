@@ -3,8 +3,6 @@ package warhammermod.Items;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
-import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -12,7 +10,6 @@ import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.*;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 
-import java.util.Set;
 
 public class heavytemplate extends ItemSword {
 
