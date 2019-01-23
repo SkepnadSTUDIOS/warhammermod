@@ -91,19 +91,20 @@ public class guntemplate extends ItemBow {
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
 
         if (!readytoFire && !player.world.isRemote) {
-            EntityPlayer entityplayer = (EntityPlayer) player;
-            int ammoreserve = this.findAmmo(entityplayer).getCount();
-            int infinitylevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack);
-            if ((ammoreserve > 0) && (!entityplayer.capabilities.isCreativeMode) ) {
-
-                if (count == getMaxItemUseDuration(stack) - timetoreload) {
+            if (count == getMaxItemUseDuration(stack) - timetoreload) {
+                EntityPlayer entityplayer = (EntityPlayer) player;
+                int ammoreserve = this.findAmmo(entityplayer).getCount();
+                if ((ammoreserve > 0) && (!entityplayer.capabilities.isCreativeMode) ) {
+                    int infinitylevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack);
                     if (ammoreserve < magsize) {
                         ammocount=ammoreserve;
+
                         if (infinitylevel == 0) {
                             this.findAmmo(entityplayer).shrink(ammoreserve);
                         }
                     } else {
                         ammocount=magsize;
+
                         if (infinitylevel == 0) {
                             this.findAmmo(entityplayer).shrink(magsize);
                         }
@@ -144,24 +145,26 @@ public class guntemplate extends ItemBow {
                     }
 
                 }
+            }
 
-            }
-            if(!entityplayer.capabilities.isCreativeMode && !worldIn.isRemote) {
-                ammocounter = stack.getTagCompound();
-                if (ammocounter == null) {
-                    ammocounter = new NBTTagCompound();
-                    ammocounter.setInteger("ammo", ammocount);
-                    ammocount=0;
-                } else if (ammocount > 0) {
-                    ammocounter.setInteger("ammo", ammocount);
-                    ammocount = 0;
-                } else {
-                    ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") - 1);
+
+                if (!entityplayer.capabilities.isCreativeMode && !worldIn.isRemote) {
+                    ammocounter = stack.getTagCompound();
+                    if (ammocounter == null) {
+                        ammocounter = new NBTTagCompound();
+                        ammocounter.setInteger("ammo", ammocount);
+                        ammocount=0;
+                    }else if(ammocount>0){
+                        ammocounter.setInteger("ammo",ammocount);
+                    ammocount=0;}
+                    else{
+                        ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") -1);
+                    }
+                    stack.setTagCompound(ammocounter);
                 }
-                stack.setTagCompound(ammocounter);
-            }
         }
     }
+
 
 
 
