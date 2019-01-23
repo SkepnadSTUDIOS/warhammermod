@@ -89,19 +89,20 @@ public class grenadelaunchertemplate extends ItemBow {
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
 
         if (!readytoFire && !player.world.isRemote) {
-            EntityPlayer entityplayer = (EntityPlayer) player;
-            int ammoreserve = this.findAmmo(entityplayer).getCount();
-            int infinitylevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack);
-            if ((ammoreserve > 0) && (!entityplayer.capabilities.isCreativeMode)) {
-
-                if (count == getMaxItemUseDuration(stack) - timetoreload) {
+            if (count == getMaxItemUseDuration(stack) - timetoreload) {
+                EntityPlayer entityplayer = (EntityPlayer) player;
+                int ammoreserve = this.findAmmo(entityplayer).getCount();
+                if ((ammoreserve > 0) && (!entityplayer.capabilities.isCreativeMode) ) {
+                    int infinitylevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack);
                     if (ammoreserve < magsize) {
-                        ammocount = ammoreserve;
+                        ammocount=ammoreserve;
+
                         if (infinitylevel == 0) {
                             this.findAmmo(entityplayer).shrink(ammoreserve);
                         }
                     } else {
-                        ammocount = magsize;
+                        ammocount=magsize;
+
                         if (infinitylevel == 0) {
                             this.findAmmo(entityplayer).shrink(magsize);
                         }
@@ -184,6 +185,7 @@ public class grenadelaunchertemplate extends ItemBow {
             case 48:return true;
             case 49:return true;
             case 34:return true;
+            case 70:return true;
             default:return false;
 
         }
