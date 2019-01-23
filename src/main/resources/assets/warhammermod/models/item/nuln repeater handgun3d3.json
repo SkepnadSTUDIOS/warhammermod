@@ -222,13 +222,5 @@
         "up": { "texture": "#barrel", "uv": [ 14, 9, 15, 10 ] }
       }
     }
-  ],
-  "overrides": [
-    {
-      "predicate": {
-        "reloading": 1
-      },
-      "model": "warhammermod:item/gunsecond/repeater3d_reload"
-    }
   ]
 }

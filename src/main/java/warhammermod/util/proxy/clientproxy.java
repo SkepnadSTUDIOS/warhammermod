@@ -26,14 +26,10 @@ public class clientproxy extends commonproxy{
         }
         else if(item.getRegistryName().toString().equals("warhammermod:nuln repeater handgun")){
             ModelResourceLocation repeater_3d = new ModelResourceLocation("warhammermod:nuln repeater handgun3d",id);
-            ModelResourceLocation repeater_3d2 = new ModelResourceLocation("warhammermod:nuln repeater handgun3d2",id);
-            ModelResourceLocation repeater_3d3 = new ModelResourceLocation("warhammermod:nuln repeater handgun3d3",id);
             ModelResourceLocation repeater_normal = new ModelResourceLocation("warhammermod:nuln repeater handgun",id);
-            ModelLoader.registerItemVariants(item,new ResourceLocation[]{repeater_3d,repeater_3d2,repeater_3d3,repeater_normal});
-            ModelLoader.setCustomMeshDefinition(item,(stack -> {if(confighandler.Config_enable.repeater_3D_model && repeater_value ==1){
+            ModelLoader.registerItemVariants(item,new ResourceLocation[]{repeater_3d,repeater_normal});
+            ModelLoader.setCustomMeshDefinition(item,(stack -> {if(confighandler.Config_enable.repeater_3D_model){
                 return repeater_3d;}
-                else if (confighandler.Config_enable.repeater_3D_model && repeater_value==2){return repeater_3d2;}
-                else if (confighandler.Config_enable.repeater_3D_model){return repeater_3d3;}
                 else {return repeater_normal;}
             }));
         }

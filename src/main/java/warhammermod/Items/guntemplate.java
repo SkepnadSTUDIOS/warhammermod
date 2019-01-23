@@ -17,7 +17,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
-import warhammermod.util.proxy.clientproxy;
 
 import javax.annotation.Nullable;
 
@@ -55,7 +54,6 @@ public class guntemplate extends ItemBow {
                 return entityIn != null && entityIn instanceof EntityPlayer && !((EntityPlayer) entityIn).capabilities.isCreativeMode && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack  && (reloader==null || reloader.getInteger("ammo")<=0) ? 1.0F : 0.0F;
             }
         });
-
     }
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
@@ -154,33 +152,14 @@ public class guntemplate extends ItemBow {
                     ammocounter = new NBTTagCompound();
                     ammocounter.setInteger("ammo", ammocount);
                     ammocount=0;
-                    stack.setTagCompound(ammocounter);
                 } else if (ammocount > 0) {
                     ammocounter.setInteger("ammo", ammocount);
-                    stack.setTagCompound(ammocounter);
                     ammocount = 0;
                 } else {
                     ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") - 1);
-
-                    stack.setTagCompound(ammocounter);
                 }
-            }
-            if(worldIn.isRemote && stack.getDisplayName().equals("nuln repeater handgun")){
-                ammocounter = stack.getTagCompound();
-                if (ammocounter == null) {
-                    ammocounter = new NBTTagCompound();}
-                if(ammocounter.getInteger("fire_pos")==1){
-                    clientproxy.repeater_value=1;
-                    ammocounter.setInteger("fire_pos",2);}
-                else if(ammocounter.getInteger("fire_pos")==2){
-                    clientproxy.repeater_value=2;
-                    ammocounter.setInteger("fire_pos",0);
-                }
-                else {clientproxy.repeater_value=0;ammocounter.setInteger("fire_pos",1);}
                 stack.setTagCompound(ammocounter);
             }
-
-
         }
     }
 
