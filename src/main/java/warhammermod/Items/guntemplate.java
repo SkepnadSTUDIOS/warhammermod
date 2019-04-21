@@ -143,6 +143,7 @@ public class guntemplate extends ItemBow {
                     if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
                         entitybullet.setFire(100);
                     }
+                    stack.damageItem(1, entityplayer);
 
                 }
             }

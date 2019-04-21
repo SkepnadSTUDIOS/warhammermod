@@ -14,18 +14,16 @@ public class knifetemplate extends ItemTool {
 
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet();
 
-    public knifetemplate(String name, Item.ToolMaterial material,boolean enabled){
-        super(0.8F, 0.2F, material, EFFECTIVE_ON);
+    public knifetemplate(String name,float damage,float attspeed, Item.ToolMaterial material,boolean enabled){
+        super(damage, -attspeed, material, EFFECTIVE_ON);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
 
 
-
-
         if(enabled){Itemsinit.ITEMS.add(this);}
     }
-    public boolean canApplyAtEnchantingTable(ItemStack stack, net.minecraft.enchantment.Enchantment enchantment)
+    public boolean canApplyAtEnchantingTable(ItemStack stack,float damage,float attspeed, net.minecraft.enchantment.Enchantment enchantment)
     {
         switch(enchantment.type){
             case WEAPON:return true;

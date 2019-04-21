@@ -26,8 +26,8 @@ public class speartemplate extends ItemTool {
     private final Item.ToolMaterial mat;
     private final float throwingdamage;
 
-    public speartemplate(String name, Item.ToolMaterial material,boolean enabled) {
-        super(1.8F, -2F, material, EFFECTIVE_ON);
+    public speartemplate(String name,float damage,float attspeed, Item.ToolMaterial material,boolean enabled) {
+        super(damage, attspeed, material, EFFECTIVE_ON);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);

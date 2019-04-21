@@ -54,12 +54,14 @@ public class Entityspear extends EntityArrow {
     private float extradamage;
     private int knocklevel;
     private ItemStack throwed_spear;
+    EntityPlayer entityplayer;
 
     public Entityspear(World worldIn, EntityLivingBase throwerIn, ItemStack itemstack, float damagein) {
         super(worldIn, throwerIn);
         bulletdamage = damagein;
         throwed_spear=itemstack;
         thrower=throwerIn;
+        entityplayer = (EntityPlayer) throwerIn;
     }
 
     public Entityspear(World worldIn) {
@@ -106,9 +108,9 @@ public class Entityspear extends EntityArrow {
                 DamageSource damagesource;
 
                 if (this.shootingEntity == null) {
-                    damagesource = DamageSource.causeArrowDamage(this, this);
+                    damagesource = DamageSource.causeArrowDamage(this,entityplayer);
                 } else {
-                    damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
+                    damagesource = DamageSource.causeArrowDamage(this, entityplayer);
                 }
 
                 if (this.isBurning() && !(entity instanceof EntityEnderman)) {

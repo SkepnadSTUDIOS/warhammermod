@@ -5,23 +5,23 @@ import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLivingBase;;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemStack;;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EntitySelectors;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 import javax.annotation.Nullable;
+
 
 public class entitybullet extends EntityArrow {
     private static final Predicate<Entity> ARROW_TARGETS = Predicates.and(EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>() {
@@ -60,10 +60,12 @@ public class entitybullet extends EntityArrow {
     private int bulletdamage;
     private float extradamage;
     private int knocklevel;
+    EntityPlayer entityplayer;
 
     public entitybullet(World worldIn, EntityLivingBase throwerIn, int damagein) {
         super(worldIn, throwerIn);
         bulletdamage = damagein;
+        entityplayer = (EntityPlayer) throwerIn;
     }
 
     public entitybullet(World worldIn) {
@@ -83,14 +85,6 @@ public class entitybullet extends EntityArrow {
         this.setPosition(x, y, z);
     }
 
-    public entitybullet(World worldIn, EntityLivingBase shooter) {
-        this(worldIn, shooter.posX, shooter.posY + (double)shooter.getEyeHeight() - 0.10000000149011612D, shooter.posZ);
-        this.shootingEntity = shooter;
-
-        if (shooter instanceof EntityPlayer) {
-            this.pickupStatus = EntityArrow.PickupStatus.DISALLOWED;
-        }
-    }
     public void setpowerDamage(int powerIn){
         extradamage=1.5F*powerIn;
     }
@@ -107,9 +101,9 @@ public class entitybullet extends EntityArrow {
             DamageSource damagesource;
 
             if (this.shootingEntity == null) {
-                damagesource = DamageSource.causeArrowDamage(this, this);
+                damagesource = DamageSource.causeArrowDamage(this,entityplayer);
             } else {
-                damagesource = DamageSource.causeArrowDamage(this, this.shootingEntity);
+                damagesource = DamageSource.causeArrowDamage(this, entityplayer);
             }
 
             if (this.isBurning() && !(entity instanceof EntityEnderman)) {

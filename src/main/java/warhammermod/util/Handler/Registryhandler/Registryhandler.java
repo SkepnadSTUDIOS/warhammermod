@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import warhammermod.Entities.EntityGrenade;
+import warhammermod.Entities.EntityHalberd;
 import warhammermod.Entities.Entityspear;
 import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
@@ -38,9 +39,10 @@ public class Registryhandler {
     }
     @SubscribeEvent
     public static void entityis(RegistryEvent.Register<EntityEntry> event){
-        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"bullet"), entitybullet.class,"bullet",0,reference.modid,55,60,true);
+        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"bullet"), entitybullet.class,"bullet",0,reference.modid,80,60,true);
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"spear"), Entityspear.class,"spear_entity",1,reference.modid,55,60,true);
-        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"grenade"), EntityGrenade.class,"grenade_entity",2,reference.modid,55,60,true);
+        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"grenade"), EntityGrenade.class,"grenade_entity",2,reference.modid,80,60,true);
+        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"halberd"), EntityHalberd.class,"halberd_entity",3,reference.modid,10,60,true);
     }
 
 

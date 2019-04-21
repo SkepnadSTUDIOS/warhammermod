@@ -135,6 +135,7 @@ public class grenadelaunchertemplate extends ItemBow {
                         entitybullet.setknockbacklevel(k);
                     }
                     worldIn.spawnEntity(entitybullet);
+                    stack.damageItem(1, entityplayer);
                 }
             }
 

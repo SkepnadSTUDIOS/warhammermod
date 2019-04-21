@@ -148,6 +148,7 @@ public class gunswtemplate extends ItemSword{
                     if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
                         entitybullet.setFire(100);
                     }
+                    stack.damageItem(1, entityplayer);
 
                 }
             }

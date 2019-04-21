@@ -22,10 +22,10 @@ import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 
 public class shieldtemplate extends ItemShield {
     private String shield_name;
-    public shieldtemplate(String name,boolean enabled){
+    public shieldtemplate(String name,int durability,boolean enabled){
         super();
 
-        setMaxDamage(336*3);
+        setMaxDamage(durability);
         setUnlocalizedName(name);
         setRegistryName(name);
         shield_name=name;

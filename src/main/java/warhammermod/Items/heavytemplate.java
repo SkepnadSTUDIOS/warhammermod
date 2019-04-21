@@ -24,7 +24,7 @@ public class heavytemplate extends ItemSword {
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
         attackSpeed=-attspeed;
-        this.attackdamage = damage + material.getAttackDamage();;
+        this.attackdamage = damage + material.getAttackDamage()*2F;;
 
         if(enabled){Itemsinit.ITEMS.add(this);};
     }
