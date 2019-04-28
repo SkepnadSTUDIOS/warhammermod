@@ -44,14 +44,14 @@ public class halberdtemplate extends ItemSword {
 
         if(enabled){Itemsinit.ITEMS.add(this);}
 
-        this.addPropertyOverride(new ResourceLocation("powerhit"), new IItemPropertyGetter()
+        /*this.addPropertyOverride(new ResourceLocation("powerhit"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
             {
                 return  entityIn instanceof EntityPlayer && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
-        });
+        });*/
     }
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
