@@ -1,9 +1,7 @@
 package warhammermod.util.Handler.inithandler;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemShield;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
+import net.minecraft.inventory.EntityEquipmentSlot;
+import net.minecraft.item.*;
 import warhammermod.Items.*;
 import warhammermod.util.confighandler.confighandler.Config_enable;
 import warhammermod.util.confighandler.confighandler.getvalues;
@@ -15,15 +13,22 @@ import java.util.List;
 public class Itemsinit {
     public static final List<Item> ITEMS = new ArrayList<>();
 
-    public static final Item flintlock_pistol = new guntemplate("flintlock pistol",1,25,8, Config_enable.pistol_included);
-    public static final Item musket = new guntemplate("musket", 1, 40,13,Config_enable.musket_included);
-    public static final Item repeater_handgun = new guntemplate("nuln repeater handgun",6,80,13,Config_enable.repeater_handgun_inlcuded);
+    public static final Item flintlock_pistol = new guntemplate("flintlock pistol",1,25,8,384, Config_enable.pistol_included);
+    public static final Item musket = new guntemplate("musket", 1, 40,13,420,Config_enable.musket_included);
+    public static final Item repeater_handgun = new guntemplate("nuln repeater handgun",6,80,13,500,Config_enable.repeater_handgun_inlcuded);
     public static final Item grenadeln = new grenadelaunchertemplate("grenade launcher", 1, 40,Config_enable.grenadelauncher_included);
     public static final Item Cartridge = new Cartridge("cartridge");
     public static final Item Grenade = new Grenade("grenade",Config_enable.grenadelauncher_included);
     public static final Item diamond_gunsword = new gunswtemplate(Item.ToolMaterial.DIAMOND,"diamond gunsword",Config_enable.gunsword_included);
     public static final Item iron_gunsword = new gunswtemplate(Item.ToolMaterial.IRON,"iron gunsword",Config_enable.gunsword_included);
+    public static final ItemBow Drakegun = new DrakeGunTemplate("Drakegun",45,40,10,true);
+    public static final guntemplate thunderer_hangun = new guntemplate("thunderer handgun",1,40,16,540,true);
+    public static final GreatPickaxe GREAT_PICKAXE = new GreatPickaxe("war pick",2.6F,2F,Item.ToolMaterial.DIAMOND,true);
 
+    public static final ItemArmor Diamond_Chainmail_helmet = new Armortemplate("diamond chainmail helmet", EntityEquipmentSlot.HEAD);
+    public static final ItemArmor Diamond_Chainmail_plate = new Armortemplate("diamond chainmail", EntityEquipmentSlot.CHEST);
+    public static final ItemArmor Diamond_Chainmail_legging = new Armortemplate("diamond chainmail leggings", EntityEquipmentSlot.LEGS);
+    public static final ItemArmor Diamond_Chainmail_boots = new Armortemplate("diamond chainmail boots", EntityEquipmentSlot.FEET);
 
     public static final ItemTool stone_spear = new speartemplate("stone spear", getvalues.getspd,getvalues.getsps, Item.ToolMaterial.STONE,Config_enable.spears_included);
     public static final ItemTool wooden_spear = new speartemplate("wooden spear",getvalues.getspd,getvalues.getsps, Item.ToolMaterial.WOOD,Config_enable.spears_included);

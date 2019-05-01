@@ -4,7 +4,9 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.init.Enchantments;
+import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
@@ -20,7 +22,9 @@ import warhammermod.util.Handler.inithandler.Itemsinit;
 
 import javax.annotation.Nullable;
 
-public class guntemplate extends ItemBow {
+import static net.minecraft.init.Items.BLAZE_ROD;
+
+public class DrakeGunTemplate extends ItemBow {
     private int magsize;
     private int timetoreload;
     private int ammocount = 0;
@@ -31,11 +35,11 @@ public class guntemplate extends ItemBow {
 
 
 
-    public boolean readytoFire;
+    public boolean needtoreload;
     public int damage;
 
 
-    public guntemplate(String name, int MagSize, int time, int damagein,int durability, boolean enabled) {
+    public DrakeGunTemplate(String name, int MagSize, int time, int damagein, boolean enabled) {
         setUnlocalizedName(name);
         setRegistryName(name);
         if(enabled){ Itemsinit.ITEMS.add(this);}
@@ -43,7 +47,7 @@ public class guntemplate extends ItemBow {
         magsize = MagSize;
         timetoreload = time;
         this.maxStackSize = 1;
-        this.setMaxDamage(durability);
+        this.setMaxDamage(200);
         damage = damagein;
         this.addPropertyOverride(new ResourceLocation("reloading"), new IItemPropertyGetter()
         {
@@ -62,52 +66,54 @@ public class guntemplate extends ItemBow {
             ammocounter = itemstack.getTagCompound();
             if (ammocounter == null) {
                 ammocounter = new NBTTagCompound();
+                ammocounter.setInteger("ammo", ammocount);
+                ammocount=0;
             }
-            if (playerIn.capabilities.isCreativeMode) {
-                readytoFire = true;
-            } else readytoFire = ammocounter.getInteger("ammo") > 0;
+
+            if (!playerIn.capabilities.isCreativeMode && ammocounter.getInteger("ammo") <= 0) {
+                needtoreload = true;
+
+            } else {
+                EntitySmallFireball entitysmallfireball = new EntitySmallFireball(worldIn, playerIn, playerIn.getLookVec().x*10 /*+ playerIn.getRNG().nextGaussian()*10*/, playerIn.getLookVec().y*10, playerIn.getLookVec().z*10 /*+ playerIn.getRNG().nextGaussian()*10*/);
+                entitysmallfireball.posY = playerIn.posY + (double)(playerIn.height / 2.0F);
+
+                playerIn.world.spawnEntity(entitysmallfireball);
+                ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") -1);
+                playerIn.getHeldItem(handIn).setTagCompound(ammocounter);
+                needtoreload=false;
+
+            }
+            System.out.println(ammocounter.getInteger("ammo"));
+
         }
-
-
         boolean flag = !this.findAmmo(playerIn).isEmpty();
         ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
         if (ret != null) return ret;
 
-        if (!playerIn.capabilities.isCreativeMode && !flag && !readytoFire) {
-            return flag ? new ActionResult<>(EnumActionResult.PASS, itemstack) : new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        if (!needtoreload) {
+            if(worldIn.isRemote){ worldIn.playSound(playerIn.posX,playerIn.posY,playerIn.posZ,SoundEvents.ENTITY_GENERIC_EXTINGUISH_FIRE,SoundCategory.PLAYERS,0.1F,-1.0F,true); }
+            return new ActionResult<>(EnumActionResult.PASS, itemstack);
+        } else if (!flag){
+            return new ActionResult<ItemStack>(EnumActionResult.FAIL, itemstack);
         } else {
             playerIn.setActiveHand(handIn);
-            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
-        }
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS,itemstack);}
     }
 
 
 
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
 
-        if (!readytoFire && !player.world.isRemote) {
+        if (needtoreload && !player.world.isRemote) {
             if (count == getMaxItemUseDuration(stack) - timetoreload) {
                 EntityPlayer entityplayer = (EntityPlayer) player;
                 int ammoreserve = this.findAmmo(entityplayer).getCount();
                 if ((ammoreserve > 0) && (!entityplayer.capabilities.isCreativeMode) ) {
-                    int infinitylevel = EnchantmentHelper.getEnchantmentLevel(Enchantments.INFINITY, stack);
-                    if (ammoreserve < magsize) {
-                        ammocount=ammoreserve;
-
-                        if (infinitylevel == 0) {
-                            this.findAmmo(entityplayer).shrink(ammoreserve);
-                        }
-                    } else {
-                        ammocount=magsize;
-
-                        if (infinitylevel == 0) {
-                            this.findAmmo(entityplayer).shrink(magsize);
-                        }
-                    }
+                    this.findAmmo(entityplayer).shrink(1);
                 }
             }
         }
-        if ((count == getMaxItemUseDuration(stack) - timetoreload) && !readytoFire) {
+        if ((count == getMaxItemUseDuration(stack) - timetoreload)) {
             player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.PLAYERS, 1.0F, 1.0F, true);
         }
 
@@ -115,51 +121,22 @@ public class guntemplate extends ItemBow {
 
 
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
-        if (entityLiving instanceof EntityPlayer) {
+        if (entityLiving instanceof EntityPlayer && !worldIn.isRemote) {
             EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-            if(readytoFire) {
-                worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
-
-
-                if (!worldIn.isRemote) {
-                    entitybullet entitybullet = new entitybullet(worldIn, entityplayer, damage);
-                    entitybullet.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, 4F, 0.2F);
-
-                    int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
-                    if (j > 0) {
-                        entitybullet.setpowerDamage(j);
-                    }
-                    int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.PUNCH, stack) + 1;
-                    if (k > 0) {
-                        entitybullet.setknockbacklevel(k);
-                    }
-
-                    worldIn.spawnEntity(entitybullet);
-                    if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FLAME, stack) > 0) {
-                        entitybullet.setFire(100);
-                    }
-                    stack.damageItem(1, entityplayer);
-
-                }
-            }
-
-
-                if (!entityplayer.capabilities.isCreativeMode && !worldIn.isRemote) {
+                if (!entityplayer.capabilities.isCreativeMode) {
                     ammocounter = stack.getTagCompound();
                     if (ammocounter == null) {
                         ammocounter = new NBTTagCompound();
-                        ammocounter.setInteger("ammo", ammocount);
+                        ammocounter.setInteger("ammo", magsize);
                         ammocount=0;
-                    }else if(ammocount>0){
-                        ammocounter.setInteger("ammo",ammocount);
-                    ammocount=0;}
-                    else{
-                        ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") -1);
-                    }
+                    } else ammocounter.setInteger("ammo",magsize);
                     stack.setTagCompound(ammocounter);
                 }
+            stack.damageItem(1, entityplayer);
+
         }
     }
+
 
 
 
@@ -185,7 +162,7 @@ public class guntemplate extends ItemBow {
     }
 
     private boolean isAmmo(ItemStack stack) {
-        return stack.getItem() instanceof Cartridge;
+        return stack.getItem() == BLAZE_ROD;
     }
     public int getMaxItemUseDuration(ItemStack stack) {
         return 72000;

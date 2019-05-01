@@ -11,10 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
@@ -82,7 +79,7 @@ public class halberdtemplate extends ItemSword {
     @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
-        Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();;
+        Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
         if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
         {
@@ -91,6 +88,11 @@ public class halberdtemplate extends ItemSword {
         }
 
         return multimap;
+    }
+
+    public int getMaxItemUseDuration(ItemStack stack) { return 72000; }
+    public EnumAction getItemUseAction(ItemStack stack) {
+        return EnumAction.BOW;
     }
 
 

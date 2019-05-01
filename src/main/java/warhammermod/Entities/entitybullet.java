@@ -5,13 +5,13 @@ import com.google.common.base.Predicates;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -29,7 +29,7 @@ public class entitybullet extends EntityArrow {
             return p_apply_1_.canBeCollidedWith();
         }
     });
-    private static final DataParameter<Byte> CRITICAL = EntityDataManager.<Byte>createKey(EntityArrow.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> CRITICAL = EntityDataManager.createKey(EntityArrow.class, DataSerializers.BYTE);
     private int xTile;
     private int yTile;
     private int zTile;
@@ -110,7 +110,7 @@ public class entitybullet extends EntityArrow {
                 entity.setFire(5);
             }
 
-            if (entity.attackEntityFrom(damagesource, (float) i)) {
+            if (entity.attackEntityFrom(damagesource, i)) {
                 if (entity instanceof EntityLivingBase) {
                     EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 

@@ -24,15 +24,15 @@ public class heavytemplate extends ItemSword {
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
         attackSpeed=-attspeed;
-        this.attackdamage = damage + material.getAttackDamage()*2F;;
+        this.attackdamage = damage + material.getAttackDamage()*2F;
 
-        if(enabled){Itemsinit.ITEMS.add(this);};
+        if(enabled){Itemsinit.ITEMS.add(this);}
     }
 
     @Override
     public Multimap<String, AttributeModifier> getItemAttributeModifiers(EntityEquipmentSlot equipmentSlot)
     {
-        Multimap<String, AttributeModifier> multimap = HashMultimap.<String, AttributeModifier>create();;
+        Multimap<String, AttributeModifier> multimap = HashMultimap.create();
 
         if (equipmentSlot == EntityEquipmentSlot.MAINHAND)
         {

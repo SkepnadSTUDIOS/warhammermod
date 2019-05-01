@@ -30,7 +30,7 @@ public class Entityspear extends EntityArrow {
             return p_apply_1_.canBeCollidedWith();
         }
     });
-    private static final DataParameter<Byte> CRITICAL = EntityDataManager.<Byte>createKey(EntityArrow.class, DataSerializers.BYTE);
+    private static final DataParameter<Byte> CRITICAL = EntityDataManager.createKey(EntityArrow.class, DataSerializers.BYTE);
     private int xTile;
     private int yTile;
     private int zTile;
@@ -117,7 +117,7 @@ public class Entityspear extends EntityArrow {
                     entity.setFire(5);
                 }
 
-                if (entity.attackEntityFrom(damagesource, (float) i)) {
+                if (entity.attackEntityFrom(damagesource, i)) {
                     if (entity instanceof EntityLivingBase) {
                         EntityLivingBase entitylivingbase = (EntityLivingBase) entity;
 

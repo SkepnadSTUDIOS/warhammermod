@@ -9,6 +9,6 @@ public class reference {
         public static final String COMMON_PROXY_CLASS = "warhammermod.util.proxy.commonproxy";
         public static final String modid = "warhammermod";
 
-        public static final Biome Biome_list[] = new Biome[]{Biomes.EXTREME_HILLS, Biomes.EXTREME_HILLS_WITH_TREES, Biomes.MUTATED_EXTREME_HILLS_WITH_TREES, Biomes.MUTATED_EXTREME_HILLS};
+    public static final Biome[] Biome_list = new Biome[]{Biomes.EXTREME_HILLS, Biomes.EXTREME_HILLS_WITH_TREES, Biomes.MUTATED_EXTREME_HILLS_WITH_TREES, Biomes.MUTATED_EXTREME_HILLS};
 }
 

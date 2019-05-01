@@ -67,12 +67,7 @@ public class gunswtemplate extends ItemSword{
             }
             if (playerIn.capabilities.isCreativeMode) {
                 readytoFire = true;
-            } else if (ammocounter.getInteger("ammo") <= 0) {
-                readytoFire = false;
-
-            } else {
-                readytoFire = true;
-            }
+            } else readytoFire = ammocounter.getInteger("ammo") > 0;
         }
 
 
@@ -128,7 +123,7 @@ public class gunswtemplate extends ItemSword{
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) entityLiving;
             if(readytoFire) {
-                worldIn.playSound((EntityPlayer) null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
+                worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.0F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
 
 
                 if (!worldIn.isRemote) {

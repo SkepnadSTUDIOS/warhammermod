@@ -87,7 +87,7 @@ public class EntityHalberd extends EntityThrowable
                     }
                 }
                 if (result.entityHit != entityplayer)
-                    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float) damage);
+                    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
             }
         }
             if (!this.world.isRemote) {

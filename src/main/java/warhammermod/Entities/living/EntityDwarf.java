@@ -38,7 +38,7 @@ import java.util.Random;
 public class EntityDwarf extends EntityVillager
 {
     private static final Logger LOGGER = LogManager.getLogger();
-    private static final DataParameter<Integer> PROFESSION = EntityDataManager.<Integer>createKey(EntityDwarf.class, DataSerializers.VARINT);
+    private static final DataParameter<Integer> PROFESSION = EntityDataManager.createKey(EntityDwarf.class, DataSerializers.VARINT);
     private int randomTickDivider;
     private boolean isMating;
     private boolean isPlaying;

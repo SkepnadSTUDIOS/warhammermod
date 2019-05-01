@@ -27,13 +27,14 @@ public class clientproxy extends commonproxy{
         else if(item.getRegistryName().toString().equals("warhammermod:nuln repeater handgun")){
             ModelResourceLocation repeater_3d = new ModelResourceLocation("warhammermod:nuln repeater handgun3d",id);
             ModelResourceLocation repeater_normal = new ModelResourceLocation("warhammermod:nuln repeater handgun",id);
-            ModelLoader.registerItemVariants(item,new ResourceLocation[]{repeater_3d,repeater_normal});
+            ModelLoader.registerItemVariants(item, repeater_3d,repeater_normal);
             ModelLoader.setCustomMeshDefinition(item,(stack -> {if(confighandler.Config_enable.repeater_3D_model){
                 return repeater_3d;}
                 else {return repeater_normal;}
             }));
         }
         else {
+            System.out.println(item.getRegistryName());
             ModelLoader.setCustomModelResourceLocation(item, meta, new ModelResourceLocation(item.getRegistryName(), id));
         }
     }
@@ -57,6 +58,7 @@ public class clientproxy extends commonproxy{
                 return new rendergrenade<>(manager);
             }
         });
+
     }
 }
 
