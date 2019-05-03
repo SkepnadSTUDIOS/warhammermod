@@ -19,13 +19,13 @@ import warhammermod.util.Handler.inithandler.Itemsinit;
 import javax.annotation.Nullable;
 
 public class gunswtemplate extends ItemSword{
-    public gunswtemplate(Item.ToolMaterial material,String name,boolean enabled){
+    public gunswtemplate(Item.ToolMaterial material,String name,boolean enabled,int Timetoreload){
         super(material);
         setUnlocalizedName(name);
         setRegistryName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         magsize = 1;
-        timetoreload = 27;
+        timetoreload = Timetoreload;
         this.addPropertyOverride(new ResourceLocation("firing"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)
