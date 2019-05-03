@@ -1,22 +1,12 @@
 package warhammermod.Entities.render;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.block.model.IBakedModel;
-import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import warhammermod.Entities.render.model.Shield_Model;
-import warhammermod.Entities.render.model.dwarfshieldmodel;
-import warhammermod.util.reference;
-
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.model.ModelShield;
-import net.minecraft.client.renderer.BannerTextures;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.tileentity.TileEntityItemStackRenderer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import warhammermod.Entities.render.model.dwarfshieldmodel;
 
 public class RenderShieldDW extends TileEntityItemStackRenderer {
     private static String resource_location="warhammermod:textures/items/dwarf shield.png";

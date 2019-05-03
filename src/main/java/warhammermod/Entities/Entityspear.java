@@ -99,7 +99,6 @@ public class Entityspear extends EntityArrow {
     protected void onHit(RayTraceResult raytraceResultIn) {
         Entity entity = raytraceResultIn.entityHit;
         if(!world.isRemote) {
-        System.out.println(bulletdamage+ " 000000000 "+throwed_spear);
 
             if (entity != null) {
                 float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);

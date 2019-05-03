@@ -18,6 +18,7 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import warhammermod.Entities.living.Emanager.ProfessionHelper;
 import warhammermod.util.proxy.commonproxy;
 import warhammermod.util.reference;
 import warhammermod.util.utils;
@@ -58,22 +59,17 @@ public class Main {
     @EventHandler
     public void Init(FMLInitializationEvent event){
 
-        //utils.addbiome(Biomes.EXTREME_HILLS);
-        //utils.addbiome(Biomes.EXTREME_HILLS_WITH_TREES);
-        //utils.addbiome(Biomes.MUTATED_EXTREME_HILLS_WITH_TREES);
-        //utils.addbiome(Biomes.MUTATED_EXTREME_HILLS);
-        //utils.addbiome(reference.Biome_list);
-        System.out.println(MapGenVillage.VILLAGE_SPAWN_BIOMES);
         GameRegistry.registerWorldGenerator(new WorldGen(), 0);
         MapGenStructureIO.registerStructure(MapGenDwarfVillage.DwarfStart.class,"Dwarf Village");
         StructureDwarfVillagePieces.registerVillagePieces();
+        ProfessionHelper.tradesinit();
 
     }
 
     @EventHandler
     public static void PostInit(FMLPostInitializationEvent event){
     }
-
+/*
     Biome biome;
     @SubscribeEvent
     public void onvillagerspawn(EntityJoinWorldEvent event)
@@ -82,7 +78,7 @@ public class Main {
         if ((event.getEntity() instanceof EntityVillager) && utils.checkcorrectbiome(biome=event.getWorld().getBiome(((EntityVillager) event.getEntity()).getPos()))){
         System.out.println("villager detected");
         System.out.println(MapGenVillage.VILLAGE_SPAWN_BIOMES);}
-    }
+    }*/
 
 
 }

@@ -11,25 +11,28 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
-import net.minecraft.util.*;
+import net.minecraft.item.EnumAction;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.Sys;
 import warhammermod.Entities.EntityHalberd;
 import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
-
-import javax.annotation.Nullable;
 
 public class halberdtemplate extends ItemSword {
 
     private float attackSpeed;
     private float attackdamage;
-    private int cooldown=0;
+    private int cooldown=20;
     private int itemUseDuration = 72000;
     private ItemStack stack;
+    private boolean canhit;
 
     public halberdtemplate(String name, Item.ToolMaterial material,float damage,float attspeed,boolean enabled){
         super(material);
@@ -53,23 +56,36 @@ public class halberdtemplate extends ItemSword {
 
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        if(!worldIn.isRemote){
-            stack=playerIn.getHeldItem(handIn);
-            EntityHalberd halberdstrike = new EntityHalberd(worldIn, playerIn,attackdamage*1.3F);
-            halberdstrike.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 4F, 0.2F);
-            int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, stack);
-            if (j > 0) {
-                halberdstrike.setpowerDamage(j);
-            }
-            int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, stack) + 1;
-            if (k > 0) {
-                halberdstrike.setknockbacklevel(k);
-            }
-            worldIn.spawnEntity(halberdstrike);
-            stack.damageItem(3, playerIn);
-            playerIn.getCooldownTracker().setCooldown(this, 20);
-        }
         return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+    }
+
+    public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
+
+            if (count == getMaxItemUseDuration(stack) - cooldown &&!player.world.isRemote){
+                canhit=true;
+                player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_HORSE_BREATHE, SoundCategory.PLAYERS, 1.0F, 1.0F, true);
+            }
+    }
+
+    public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
+            if(canhit && !worldIn.isRemote && entityLiving instanceof EntityPlayer){
+
+                EntityPlayer playerIn = (EntityPlayer) entityLiving;
+                EntityHalberd halberdstrike = new EntityHalberd(worldIn, playerIn,attackdamage*1.3F);
+                halberdstrike.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3F, 0.2F);
+                int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, stack);
+                if (j > 0) {
+                    halberdstrike.setpowerDamage(j);
+                }
+                int k = EnchantmentHelper.getEnchantmentLevel(Enchantments.KNOCKBACK, stack) + 1;
+                if (k > 0) {
+                    halberdstrike.setknockbacklevel(k);
+                }
+                worldIn.spawnEntity(halberdstrike);
+                stack.damageItem(3, playerIn);
+                playerIn.getCooldownTracker().setCooldown(this, 40);
+
+            }
     }
 
 

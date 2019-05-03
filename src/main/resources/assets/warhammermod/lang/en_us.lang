@@ -2,6 +2,18 @@ item.cartridge.name=cartridge
 item.bullet.name=bullet
 item.grenade.name=grenade
 
+item.beer.name=beer
+
+item.Ghal Maraz.name=Ghal Maraz
+item.war pick.name=war pick
+item.Drakegun.name=drakegun
+item.thunderer handgun.name
+
+item.diamond chainmail helmet.name=diamond chainmail helmet
+item.diamond chainmail.name=diamond chainmail
+item.diamond chainmail leggings.name=diamond chainmail leggings
+item.diamond chainmail boots.name=diamond chainmail boots
+
 item.musket.name=musket
 item.nuln repeater handgun.name=nuln repeater handgun
 item.flintlock pistol.name=flintlock pistol
@@ -32,5 +44,7 @@ item.gold halberd.name=gold halberd
 item.iron halberd.name=iron halberd
 item.stone halberd.name=stone halberd
 item.wooden halberd.name=wooden halberd
+
+entity.dwarf.name=dwarf
 
 tile.tblock.name=tblock

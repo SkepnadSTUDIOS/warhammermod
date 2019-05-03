@@ -5,7 +5,6 @@ import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.util.ResourceLocation;
 import warhammermod.Entities.EntityGrenade;
-import warhammermod.Entities.render.model.bullet_model;
 import warhammermod.Entities.render.model.model_grenade;
 import warhammermod.util.reference;
 

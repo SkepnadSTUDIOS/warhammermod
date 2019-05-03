@@ -1,9 +1,11 @@
 package warhammermod.Entities.living.Render;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -11,12 +13,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.living.EntityDwarf;
 import warhammermod.Entities.living.Model.ModelDwarf;
 import warhammermod.util.reference;
+import warhammermod.util.utils;
 
 @SideOnly(Side.CLIENT)
-public class RenderDwarf extends RenderLiving<EntityVillager>
+public class RenderDwarf extends RenderLiving<EntityDwarf>
 {
 
-    private static final ResourceLocation DWARF_VILLAGER_TEXTURES = new ResourceLocation(reference.modid,"textures/entity/dwarf.png");
+
 
     public RenderDwarf(RenderManager renderManagerIn)
     {
@@ -26,18 +29,19 @@ public class RenderDwarf extends RenderLiving<EntityVillager>
 
 
 
+
     /**
      * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
      */
-    protected ResourceLocation getEntityTexture(EntityVillager entity)
+    protected ResourceLocation getEntityTexture(EntityDwarf entity)
     {
-        return DWARF_VILLAGER_TEXTURES;
+        return(utils.getdwarftexture(entity));
     }
 
     /**
      * Allows the render to do state modifications necessary before the model is rendered.
      */
-    protected void preRenderCallback(EntityVillager entitylivingbaseIn, float partialTickTime)
+    protected void preRenderCallback(EntityDwarf entitylivingbaseIn, float partialTickTime)
     {
         float f = 0.9375F;
 

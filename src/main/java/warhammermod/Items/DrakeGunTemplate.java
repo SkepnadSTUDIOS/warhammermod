@@ -1,12 +1,10 @@
 package warhammermod.Items;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.init.Enchantments;
-import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.EnumAction;
 import net.minecraft.item.IItemPropertyGetter;
@@ -17,7 +15,6 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 
 import javax.annotation.Nullable;
@@ -83,7 +80,6 @@ public class DrakeGunTemplate extends ItemBow {
                 needtoreload=false;
 
             }
-            System.out.println(ammocounter.getInteger("ammo"));
 
         }
         boolean flag = !this.findAmmo(playerIn).isEmpty();
@@ -158,6 +154,15 @@ public class DrakeGunTemplate extends ItemBow {
             }
 
             return ItemStack.EMPTY;
+        }
+    }
+    public boolean canApplyAtEnchantingTable(ItemStack stack, net.minecraft.enchantment.Enchantment enchantment)
+    {
+        switch(Enchantment.getEnchantmentID(enchantment)){
+            case 34:return true;
+            case 70:return true;
+            default:return false;
+
         }
     }
 

@@ -14,6 +14,7 @@ import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+
 import javax.annotation.Nullable;
 
 public class EntityGrenade extends EntityArrow {

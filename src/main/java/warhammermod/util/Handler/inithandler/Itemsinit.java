@@ -6,7 +6,6 @@ import warhammermod.Items.*;
 import warhammermod.util.confighandler.confighandler.Config_enable;
 import warhammermod.util.confighandler.confighandler.getvalues;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +22,11 @@ public class Itemsinit {
     public static final Item iron_gunsword = new gunswtemplate(Item.ToolMaterial.IRON,"iron gunsword",Config_enable.gunsword_included);
     public static final ItemBow Drakegun = new DrakeGunTemplate("Drakegun",45,40,10,true);
     public static final guntemplate thunderer_hangun = new guntemplate("thunderer handgun",1,40,16,540,true);
+
     public static final GreatPickaxe GREAT_PICKAXE = new GreatPickaxe("war pick",2.6F,2F,Item.ToolMaterial.DIAMOND,true);
+    public static final GhalMaraz GHAL_MARAZ = new GhalMaraz("Ghal Maraz", Item.ToolMaterial.DIAMOND,8F,2.35F,true);
+
+    public static final beertemplate beer = new beertemplate("beer");
 
     public static final ItemArmor Diamond_Chainmail_helmet = new Armortemplate("diamond chainmail helmet", EntityEquipmentSlot.HEAD);
     public static final ItemArmor Diamond_Chainmail_plate = new Armortemplate("diamond chainmail", EntityEquipmentSlot.CHEST);

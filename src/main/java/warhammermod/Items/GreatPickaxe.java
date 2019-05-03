@@ -11,8 +11,11 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+
 import java.util.Set;
 
 public class GreatPickaxe extends ItemSword {
@@ -132,5 +135,9 @@ public class GreatPickaxe extends ItemSword {
             case DIGGER:return true;
             default: return false;
         }
+    }
+    public int getItemEnchantability()
+    {
+        return this.toolMaterial.getEnchantability()+10;
     }
 }

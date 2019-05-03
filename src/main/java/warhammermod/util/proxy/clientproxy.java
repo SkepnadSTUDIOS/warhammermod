@@ -4,7 +4,6 @@ import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.Item;
-import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.registry.IRenderFactory;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
@@ -13,7 +12,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.EntityGrenade;
 import warhammermod.Entities.Entityspear;
 import warhammermod.Entities.entitybullet;
-import warhammermod.Entities.render.*;
+import warhammermod.Entities.render.renderbullet;
+import warhammermod.Entities.render.rendergrenade;
+import warhammermod.Entities.render.renderspear;
 import warhammermod.Items.shieldtemplate;
 import warhammermod.util.confighandler.confighandler;
 

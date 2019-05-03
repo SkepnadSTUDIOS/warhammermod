@@ -1,6 +1,7 @@
 package warhammermod.util.Handler.Registryhandler;
 
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
@@ -45,7 +46,7 @@ public class Registryhandler {
         }
         RenderingRegistry.registerEntityRenderingHandler(EntityDwarf.class, new IRenderFactory<EntityDwarf>() {
             @Override
-            public Render<? super EntityDwarf> createRenderFor(RenderManager manager) {
+            public RenderLiving<? super EntityDwarf> createRenderFor(RenderManager manager) {
                 return new RenderDwarf(manager);
             }
         });

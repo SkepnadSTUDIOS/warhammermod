@@ -11,7 +11,7 @@ import warhammermod.Entities.living.EntityDwarf;
 public class EntityAIDwarfMate extends EntityAIBase
 {
     private final EntityDwarf villager;
-    private EntityVillager mate;
+    private EntityDwarf mate;
     private final World world;
     private int matingTimeout;
     Village village;

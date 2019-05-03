@@ -105,7 +105,7 @@ public class EntityHalberd extends EntityThrowable
         this.prevRotationYaw = this.rotationYaw;
 
         --fuse;
-        if(fuse<=0){System.out.println(("killed"));setDead();}
+        if(fuse<=0){setDead();}
 
 
 
