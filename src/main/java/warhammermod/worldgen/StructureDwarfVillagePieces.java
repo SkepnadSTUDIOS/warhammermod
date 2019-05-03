@@ -32,7 +32,7 @@ public class StructureDwarfVillagePieces{
 
     public static void registerVillagePieces()
     {
-        MapGenStructureIO.registerStructureComponent(StructureDwarfVillagePieces.House1.class, "ViBH");
+        MapGenStructureIO.registerStructureComponent(StructureDwarfVillagePieces.Library.class, "ViBH");
         MapGenStructureIO.registerStructureComponent(StructureDwarfVillagePieces.Field1.class, "ViDF");
         MapGenStructureIO.registerStructureComponent(StructureDwarfVillagePieces.Field2.class, "ViF");
         MapGenStructureIO.registerStructureComponent(StructureDwarfVillagePieces.Torch.class, "ViL");
@@ -52,7 +52,7 @@ public class StructureDwarfVillagePieces{
         List<StructureDwarfVillagePieces.PieceWeight> list = Lists.newArrayList();
         list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.House4Garden.class, 4, MathHelper.getInt(random, 2 + size, 4 + size * 2)));
         list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.Church.class, 20, MathHelper.getInt(random, 0 + size, 1 + size)));
-        list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.House1.class, 20, MathHelper.getInt(random, 0 + size, 2 + size)));
+        list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.Library.class, 20, MathHelper.getInt(random, 0 + size, 2 + size)));
         list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.WoodHut.class, 3, MathHelper.getInt(random, 2 + size, 5 + size * 3)));
         list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.Hall.class, 15, MathHelper.getInt(random, 0 + size, 2 + size)));
         list.add(new StructureDwarfVillagePieces.PieceWeight(StructureDwarfVillagePieces.Field1.class, 3, MathHelper.getInt(random, 1 + size, 4 + size)));
@@ -639,9 +639,9 @@ public class StructureDwarfVillagePieces{
         {
             structureDwarfvillagepieces$village = StructureDwarfVillagePieces.Church.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing, componentType);
         }
-        else if (oclass == StructureDwarfVillagePieces.House1.class)
+        else if (oclass == StructureDwarfVillagePieces.Library.class)
         {
-            structureDwarfvillagepieces$village = StructureDwarfVillagePieces.House1.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing, componentType);
+            structureDwarfvillagepieces$village = StructureDwarfVillagePieces.Library.createPiece(start, structureComponents, rand, structureMinX, structureMinY, structureMinZ, facing, componentType);
         }
         else if (oclass == StructureDwarfVillagePieces.WoodHut.class)
         {
@@ -820,23 +820,23 @@ public class StructureDwarfVillagePieces{
         }
     }
 
-    public static class House1 extends StructureDwarfVillagePieces.Village
+    public static class Library extends StructureDwarfVillagePieces.Village
     {
-        public House1()
+        public Library()
         {
         }
 
-        public House1(StructureDwarfVillagePieces.Start start, int type, Random rand, StructureBoundingBox p_i45571_4_, EnumFacing facing)
+        public Library(StructureDwarfVillagePieces.Start start, int type, Random rand, StructureBoundingBox p_i45571_4_, EnumFacing facing)
         {
             super(start, type);
             this.setCoordBaseMode(facing);
             this.boundingBox = p_i45571_4_;
         }
 
-        public static StructureDwarfVillagePieces.House1 createPiece(StructureDwarfVillagePieces.Start start, List<StructureComponent> p_175850_1_, Random rand, int p_175850_3_, int p_175850_4_, int p_175850_5_, EnumFacing facing, int p_175850_7_)
+        public static StructureDwarfVillagePieces.Library createPiece(StructureDwarfVillagePieces.Start start, List<StructureComponent> p_175850_1_, Random rand, int p_175850_3_, int p_175850_4_, int p_175850_5_, EnumFacing facing, int p_175850_7_)
         {
             StructureBoundingBox structureboundingbox = StructureBoundingBox.getComponentToAddBoundingBox(p_175850_3_, p_175850_4_, p_175850_5_, 0, 0, 0, 9, 9, 6, facing);
-            return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175850_1_, structureboundingbox) == null ? new StructureDwarfVillagePieces.House1(start, p_175850_7_, rand, structureboundingbox, facing) : null;
+            return canVillageGoDeeper(structureboundingbox) && StructureComponent.findIntersecting(p_175850_1_, structureboundingbox) == null ? new StructureDwarfVillagePieces.Library(start, p_175850_7_, rand, structureboundingbox, facing) : null;
         }
 
         /**
@@ -2019,8 +2019,7 @@ public class StructureDwarfVillagePieces{
             this.setBlockState(worldIn, iblockstate5, 7, 5, 4, structureBoundingBoxIn);
             this.setBlockState(worldIn, iblockstate4, 6, 6, 4, structureBoundingBoxIn);
 
-            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 5, 0, 8, 5, 5, Blocks.DOUBLE_STONE_SLAB.getDefaultState(), Blocks.DOUBLE_STONE_SLAB.getDefaultState(), false);
-            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 5, 1, 7, 5, 4, Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.SMOOTHBRICK), Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.SMOOTHBRICK), false);
+
 
             this.setBlockState(worldIn, iblockstate6, 0, 2, 1, structureBoundingBoxIn);
             this.setBlockState(worldIn, iblockstate6, 0, 2, 4, structureBoundingBoxIn);
@@ -2051,6 +2050,12 @@ public class StructureDwarfVillagePieces{
             this.placeTorch(worldIn, EnumFacing.NORTH, 2, 3, 1, structureBoundingBoxIn);
             this.createVillageDoor(worldIn, structureBoundingBoxIn, randomIn, 2, 1, 0, EnumFacing.NORTH);
             this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 0, -1, 3, 2, -1, Blocks.AIR.getDefaultState(), Blocks.AIR.getDefaultState(), false);
+
+            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 0, 4, 0, 8, 4, 5, Blocks.DOUBLE_STONE_SLAB.getDefaultState(), Blocks.DOUBLE_STONE_SLAB.getDefaultState(), false);
+            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 1, 4, 1, 7, 4, 4, Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.SMOOTHBRICK), Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.SMOOTHBRICK), false);
+            this.fillWithBlocks(worldIn, structureBoundingBoxIn, 2, 4, 6, 8, 4, 10, Blocks.DOUBLE_STONE_SLAB.getDefaultState(), Blocks.DOUBLE_STONE_SLAB.getDefaultState(), false);
+            this.fillWithBlocks(worldIn,structureBoundingBoxIn,3,4,5,7,4,9,Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.SMOOTHBRICK),Blocks.STONE_SLAB.getDefaultState().withProperty(BlockStoneSlab.VARIANT,BlockStoneSlab.EnumType.SMOOTHBRICK),false);
+            this.fillWithAir(worldIn,structureBoundingBoxIn,0,5,0,8,6,10);
 
             if (this.getBlockStateFromPos(worldIn, 2, 0, -1, structureBoundingBoxIn).getMaterial() == Material.AIR && this.getBlockStateFromPos(worldIn, 2, -1, -1, structureBoundingBoxIn).getMaterial() != Material.AIR)
             {
