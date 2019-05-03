@@ -45,6 +45,6 @@ item.iron halberd.name=iron halberd
 item.stone halberd.name=stone halberd
 item.wooden halberd.name=wooden halberd
 
-entity.dwarfe.name=dwarf
+entity.dwarf.name=dwarf
 
 tile.tblock.name=tblock

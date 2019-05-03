@@ -84,9 +84,9 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     private net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession prof;
     /** A multi-dimensional array mapping the various professions, careers and career levels that a Villager may offer */
     public static final EntityDwarf.ITradeList[][][][] DWARF_TRADE_LIST_MAP = new EntityDwarf.ITradeList[][][][] {{{{new EntityDwarf.EmeraldForItems(Items.WHEAT, new EntityDwarf.PriceInfo(18, 22)), new EntityDwarf.EmeraldForItems(Items.POTATO, new EntityDwarf.PriceInfo(15, 19)), new EntityDwarf.EmeraldForItems(Items.CARROT, new EntityDwarf.PriceInfo(15, 19)), new EntityDwarf.ListItemForEmeralds(Itemsinit.beer, new EntityDwarf.PriceInfo(2, 6))}, {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.PUMPKIN), new EntityDwarf.PriceInfo(8, 13)), new EntityDwarf.ListItemForEmeralds(Items.PUMPKIN_PIE, new EntityDwarf.PriceInfo(-3, -2))}, {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.MELON_BLOCK), new EntityDwarf.PriceInfo(7, 12)), new EntityDwarf.ListItemForEmeralds(Items.APPLE, new EntityDwarf.PriceInfo(-7, -5))}, {new EntityDwarf.ListItemForEmeralds(Items.COOKIE, new EntityDwarf.PriceInfo(-10, -6)), new EntityDwarf.ListItemForEmeralds(Items.CAKE, new EntityDwarf.PriceInfo(1, 1))}}},
-            {{{new EmeraldForItems(Items.COAL,new PriceInfo(10,16)),new EntityDwarf.ListItemForEmeralds(Items.REDSTONE,new EntityDwarf.PriceInfo(-6,-2)),new ListItemForEmeralds(Items.MINECART, new PriceInfo(7,15)),new EmeraldForItems(Item.getItemFromBlock(Blocks.RAIL), new PriceInfo(-3,1)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.GOLDEN_RAIL),new PriceInfo(2,6)),new ListItemForEmeralds(new ItemStack(Items.DYE,1,EnumDyeColor.BLUE.getDyeDamage()), new PriceInfo(4, 2)), new EmeraldForItems(Items.GOLD_INGOT,new PriceInfo(5,7)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.TNT),new PriceInfo(11,16))},{new ListItemForEmeralds(Items.QUARTZ,new PriceInfo(1,4)),new ListEnchantedItemForEmeralds(Itemsinit.GREAT_PICKAXE,new PriceInfo(45,64))}}},
+            {{{new EmeraldForItems(Items.COAL,new PriceInfo(10,16)),new EntityDwarf.ListItemForEmeralds(Items.REDSTONE,new EntityDwarf.PriceInfo(-6,-2)),new ListItemForEmeralds(Items.MINECART, new PriceInfo(7,15)),new EmeraldForItems(Item.getItemFromBlock(Blocks.RAIL), new PriceInfo(1,3)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.GOLDEN_RAIL),new PriceInfo(2,6)),new ListItemForEmeralds(new ItemStack(Items.DYE,1,EnumDyeColor.BLUE.getDyeDamage()), new PriceInfo(2, 4)), new EmeraldForItems(Items.GOLD_INGOT,new PriceInfo(5,7)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.TNT),new PriceInfo(11,16))},{new ListItemForEmeralds(Items.QUARTZ,new PriceInfo(1,4)),new ListEnchantedItemForEmeralds(Itemsinit.GREAT_PICKAXE,new PriceInfo(45,64))}}},
             {{{new ListItemForEmeralds(Itemsinit.Cartridge,new PriceInfo(1,4)),new EmeraldForItems(Items.GUNPOWDER,new PriceInfo(1,3)),new ListItemForEmeralds(Itemsinit.Grenade,new PriceInfo(3,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4)),},{new ListItemForEmeralds(utils.getRandomShield(),new PriceInfo(12,23)),new ListItemForEmeralds(Itemsinit.thunderer_hangun,new PriceInfo(21,36))},{new ListEnchantedItemForEmeralds(utils.getRandomarmor(1),new PriceInfo(16,19)),new ListEnchantedItemForEmeralds(utils.getRandomarmor(0),new PriceInfo(16,19))},{new ListItemForEmeralds(Itemsinit.Drakegun,new PriceInfo(43,60))}}},
-            {{{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CLAY),new PriceInfo(1,4)),new EmeraldForItems(new ItemStack(Item.getItemFromBlock(Blocks.NETHER_BRICK), 1, 0),new PriceInfo(16,8)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.RED_SANDSTONE),new PriceInfo(2,7))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CONCRETE_POWDER),new PriceInfo(2,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.QUARTZ_BLOCK),new PriceInfo(2,4)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.PURPUR_BLOCK),new PriceInfo(3,7))}}},
+            {{{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CLAY),new PriceInfo(1,4)),new EmeraldForItems(new ItemStack(Item.getItemFromBlock(Blocks.NETHER_BRICK), 1, 0),new PriceInfo(8,18)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.RED_SANDSTONE),new PriceInfo(2,7))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CONCRETE_POWDER),new PriceInfo(2,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.QUARTZ_BLOCK),new PriceInfo(2,4)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.PURPUR_BLOCK),new PriceInfo(3,7))}}},
             {{{new EmeraldForItems(Itemsinit.beer,new PriceInfo(3,6))},{new EmeraldForItems(Items.ROTTEN_FLESH,new PriceInfo(58,64))},{new EmeraldForItems(Items.PRISMARINE_CRYSTALS,new PriceInfo(2,5))},{new EmeraldForItems(Items.BLAZE_ROD,new PriceInfo(2,4))},{new ListEnchantedItemForItemAndEmeralds(Items.NETHER_STAR,new PriceInfo(1,1),Itemsinit.GHAL_MARAZ,new PriceInfo(1,1))}}},
             {new EntityDwarf.ITradeList[0][]}};
 
@@ -103,7 +103,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         super(worldIn);
         this.villagerInventory = new InventoryBasic("Items", false, 8);
         this.setProfession(professionId);
-        this.setSize(0.6F, 1.95F);
+        this.setSize(0.6F, 1.8F);
         ((PathNavigateGround)this.getNavigator()).setBreakDoors(true);
         this.setCanPickUpLoot(true);
     }
@@ -709,7 +709,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
 
     public float getEyeHeight()
     {
-        return this.isChild() ? 0.81F : 1.62F;
+        return this.isChild() ? 0.81F : 1.4F;
     }
 
     /**
@@ -1210,10 +1210,8 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     public void setRandomProfession(){
         int random = new Random().nextInt(5);
         int lordrate;
-        System.out.println(random + " profession");
         if(random==4){
-            if((lordrate = new Random().nextInt(3))==2){dataManager.set(DWARF_PROFESSION,Integer.valueOf(random));}
-            else {System.out.println(lordrate+" lordrate");setRandomProfession();}
+            if((lordrate = new Random().nextInt(10))<4){dataManager.set(DWARF_PROFESSION,Integer.valueOf(random));}
         }
         else dataManager.set(DWARF_PROFESSION,Integer.valueOf(random));
     }

@@ -11,17 +11,16 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.inventory.EntityEquipmentSlot;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.EnumActionResult;
-import net.minecraft.util.EnumHand;
-import net.minecraft.util.SoundCategory;
+import net.minecraft.item.*;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.EntityHalberd;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+
+import javax.annotation.Nullable;
 
 public class halberdtemplate extends ItemSword {
 
@@ -42,33 +41,46 @@ public class halberdtemplate extends ItemSword {
 
         if(enabled){Itemsinit.ITEMS.add(this);}
 
-        /*this.addPropertyOverride(new ResourceLocation("powerhit"), new IItemPropertyGetter()
+        this.addPropertyOverride(new ResourceLocation("powerhit"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)
             public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
             {
-                return  entityIn instanceof EntityPlayer && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
+                return entityIn != null && canhit &&entityIn.isHandActive() && entityIn.getActiveItemStack() == stack ? 1.0F : 0.0F;
             }
-        });*/
+        });
     }
-
+    @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn)
     {
-        return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, playerIn.getHeldItem(handIn));
+        ItemStack itemstack = playerIn.getHeldItem(handIn);
+
+        boolean flag = !false;
+        ActionResult<ItemStack> ret = net.minecraftforge.event.ForgeEventFactory.onArrowNock(itemstack, worldIn, playerIn, handIn, flag);
+        if (ret != null) return ret;
+
+        if (!playerIn.capabilities.isCreativeMode && !flag) {
+            return flag ? new ActionResult<>(EnumActionResult.PASS, itemstack) : new ActionResult<>(EnumActionResult.FAIL, itemstack);
+        } else {
+            playerIn.setActiveHand(handIn);
+            return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemstack);
+
+
+        }
     }
 
     public void onUsingTick(ItemStack stack, EntityLivingBase player, int count) {
 
-            if (count == getMaxItemUseDuration(stack) - cooldown &&!player.world.isRemote){
+            if (count == getMaxItemUseDuration(stack) - cooldown){
                 canhit=true;
-                player.world.playSound(player.posX, player.posY, player.posZ, SoundEvents.ENTITY_HORSE_BREATHE, SoundCategory.PLAYERS, 1.0F, 1.0F, true);
             }
     }
 
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
-            if(canhit && !worldIn.isRemote && entityLiving instanceof EntityPlayer){
+            if(canhit &&  entityLiving instanceof EntityPlayer){
 
                 EntityPlayer playerIn = (EntityPlayer) entityLiving;
+                if(!worldIn.isRemote){
                 EntityHalberd halberdstrike = new EntityHalberd(worldIn, playerIn,attackdamage*1.3F);
                 halberdstrike.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3F, 0.2F);
                 int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, stack);
@@ -82,6 +94,9 @@ public class halberdtemplate extends ItemSword {
                 worldIn.spawnEntity(halberdstrike);
                 stack.damageItem(3, playerIn);
                 playerIn.getCooldownTracker().setCooldown(this, 40);
+                canhit=false;}
+                playerIn.world.playSound(playerIn.posX, playerIn.posY, playerIn.posZ, SoundEvents.ENTITY_PLAYER_ATTACK_KNOCKBACK , SoundCategory.PLAYERS, 1.0F, 1.0F, true);
+
 
             }
     }

@@ -35,7 +35,7 @@ public class GhalMaraz extends heavytemplate {
 
             if (player.world.rand.nextFloat() < 0.4F)
             {
-                if (player.world.rand.nextFloat() < 0.3F)
+                if (player.world.rand.nextFloat() < 0.4F)
                 {
                     if (player.world.rand.nextFloat() < 0.3F)
                     {
@@ -54,9 +54,9 @@ public class GhalMaraz extends heavytemplate {
                 }
 
                 player.addPotionEffect(new PotionEffect(MobEffects.RESISTANCE,250,0));
-                player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,150,1));
+                player.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,80,1));
                 player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH,200,0));
-                player.getCooldownTracker().setCooldown(this, 600);
+                player.getCooldownTracker().setCooldown(this, 500);
                 return false;
             }
 

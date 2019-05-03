@@ -71,9 +71,8 @@ public class DrakeGunTemplate extends ItemBow {
                 needtoreload = true;
 
             } else {
-                EntitySmallFireball entitysmallfireball = new EntitySmallFireball(worldIn, playerIn, playerIn.getLookVec().x*10 /*+ playerIn.getRNG().nextGaussian()*10*/, playerIn.getLookVec().y*10, playerIn.getLookVec().z*10 /*+ playerIn.getRNG().nextGaussian()*10*/);
-                entitysmallfireball.posY = playerIn.posY + (double)(playerIn.height / 2.0F);
-
+                EntitySmallFireball entitysmallfireball = new EntitySmallFireball(worldIn, playerIn, playerIn.getLookVec().x*5 /*+ playerIn.getRNG().nextGaussian()*10*/, playerIn.getLookVec().y*5, playerIn.getLookVec().z*5 /*+ playerIn.getRNG().nextGaussian()*10*/);
+                entitysmallfireball.posY = playerIn.posY + (double)(playerIn.height / 2.0F +0.1F);
                 playerIn.world.spawnEntity(entitysmallfireball);
                 ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") -1);
                 playerIn.getHeldItem(handIn).setTagCompound(ammocounter);
