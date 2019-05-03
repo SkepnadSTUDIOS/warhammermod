@@ -7,7 +7,7 @@ item.beer.name=beer
 item.Ghal Maraz.name=Ghal Maraz
 item.war pick.name=war pick
 item.Drakegun.name=drakegun
-item.thunderer handgun.name
+item.thunderer handgun.name=thunderer handgun
 
 item.diamond chainmail helmet.name=diamond chainmail helmet
 item.diamond chainmail.name=diamond chainmail
@@ -45,6 +45,6 @@ item.iron halberd.name=iron halberd
 item.stone halberd.name=stone halberd
 item.wooden halberd.name=wooden halberd
 
-entity.dwarf.name=dwarf
+entity.dwarfe.name=dwarf
 
 tile.tblock.name=tblock

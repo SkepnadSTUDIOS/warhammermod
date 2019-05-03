@@ -1,6 +1,5 @@
 package warhammermod.util.Handler.Registryhandler;
 
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.item.Item;

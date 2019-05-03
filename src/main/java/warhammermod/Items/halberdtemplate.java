@@ -15,14 +15,12 @@ import net.minecraft.item.EnumAction;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import warhammermod.Entities.EntityHalberd;
-import warhammermod.Entities.entitybullet;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 
 public class halberdtemplate extends ItemSword {

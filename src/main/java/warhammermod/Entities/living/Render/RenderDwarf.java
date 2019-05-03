@@ -3,16 +3,11 @@ package warhammermod.Entities.living.Render;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.living.EntityDwarf;
 import warhammermod.Entities.living.Model.ModelDwarf;
-import warhammermod.util.reference;
 import warhammermod.util.utils;
 
 @SideOnly(Side.CLIENT)

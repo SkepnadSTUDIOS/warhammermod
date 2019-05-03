@@ -1,8 +1,5 @@
 package warhammermod.Entities.living;
 
-import com.google.common.collect.Lists;
-import net.minecraft.advancements.CriteriaTriggers;
-import net.minecraft.block.BlockStone;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -12,12 +9,7 @@ import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.monster.*;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraftforge.fml.common.registry.VillagerRegistry;
-import warhammermod.Entities.living.EntityDwarf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -29,6 +21,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
+import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Team;
@@ -58,8 +51,6 @@ import warhammermod.util.Handler.inithandler.Itemsinit;
 import warhammermod.util.utils;
 
 import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
@@ -93,10 +84,10 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     private net.minecraftforge.fml.common.registry.VillagerRegistry.VillagerProfession prof;
     /** A multi-dimensional array mapping the various professions, careers and career levels that a Villager may offer */
     public static final EntityDwarf.ITradeList[][][][] DWARF_TRADE_LIST_MAP = new EntityDwarf.ITradeList[][][][] {{{{new EntityDwarf.EmeraldForItems(Items.WHEAT, new EntityDwarf.PriceInfo(18, 22)), new EntityDwarf.EmeraldForItems(Items.POTATO, new EntityDwarf.PriceInfo(15, 19)), new EntityDwarf.EmeraldForItems(Items.CARROT, new EntityDwarf.PriceInfo(15, 19)), new EntityDwarf.ListItemForEmeralds(Itemsinit.beer, new EntityDwarf.PriceInfo(2, 6))}, {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.PUMPKIN), new EntityDwarf.PriceInfo(8, 13)), new EntityDwarf.ListItemForEmeralds(Items.PUMPKIN_PIE, new EntityDwarf.PriceInfo(-3, -2))}, {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.MELON_BLOCK), new EntityDwarf.PriceInfo(7, 12)), new EntityDwarf.ListItemForEmeralds(Items.APPLE, new EntityDwarf.PriceInfo(-7, -5))}, {new EntityDwarf.ListItemForEmeralds(Items.COOKIE, new EntityDwarf.PriceInfo(-10, -6)), new EntityDwarf.ListItemForEmeralds(Items.CAKE, new EntityDwarf.PriceInfo(1, 1))}}},
-            {{{new EmeraldForItems(Items.COAL,new PriceInfo(10,16)),new EntityDwarf.ListItemForEmeralds(Items.REDSTONE,new EntityDwarf.PriceInfo(-6,-2)),new ListItemForEmeralds(Items.MINECART, new PriceInfo(7,15)),new EmeraldForItems(Item.getItemFromBlock(Blocks.RAIL), new PriceInfo(-3,1)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(4,8))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.GOLDEN_RAIL),new PriceInfo(2,6)),new ListItemForEmeralds(new ItemStack(Items.DYE,1,EnumDyeColor.BLUE.getDyeDamage()), new PriceInfo(4, 2)), new EmeraldForItems(Items.GOLD_INGOT,new PriceInfo(5,7)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.TNT),new PriceInfo(11,16))},{new ListItemForEmeralds(Items.QUARTZ,new PriceInfo(1,4)),new ListEnchantedItemForEmeralds(Itemsinit.GREAT_PICKAXE,new PriceInfo(45,64))}}},
-            {{{new ListItemForEmeralds(Itemsinit.Cartridge,new PriceInfo(1,4)),new EmeraldForItems(Items.GUNPOWDER,new PriceInfo(1,3)),new ListItemForEmeralds(Itemsinit.Grenade,new PriceInfo(3,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(4,8)),},{new ListItemForEmeralds(utils.getRandomShield(),new PriceInfo(12,23)),new EmeraldForItems(Itemsinit.thunderer_hangun,new PriceInfo(21,36))},{new ListEnchantedItemForEmeralds(utils.getRandomarmor(1),new PriceInfo(16,19)),new ListEnchantedItemForEmeralds(utils.getRandomarmor(0),new PriceInfo(16,19))},{new ListItemForEmeralds(Itemsinit.Drakegun,new PriceInfo(43,60))}}},
-            {{{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CLAY),new PriceInfo(1,4)),new EmeraldForItems(new ItemStack(Item.getItemFromBlock(Blocks.NETHER_BRICK), 1, 0),new PriceInfo(16,8)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.RED_SANDSTONE),new PriceInfo(2,7))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CONCRETE_POWDER),new PriceInfo(2,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(4,8))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.QUARTZ_BLOCK),new PriceInfo(2,4)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.PURPUR_BLOCK),new PriceInfo(3,7))}}},
-            {{{new EmeraldForItems(Itemsinit.beer,new PriceInfo(6,8))},{new EmeraldForItems(Items.ROTTEN_FLESH,new PriceInfo(58,64))},{new EmeraldForItems(Items.PRISMARINE_CRYSTALS,new PriceInfo(2,5))},{new EmeraldForItems(Items.BLAZE_ROD,new PriceInfo(2,4))},{new ListEnchantedItemForItemAndEmeralds(Items.NETHER_STAR,new PriceInfo(1,1),Itemsinit.GHAL_MARAZ,new PriceInfo(1,1))}}},
+            {{{new EmeraldForItems(Items.COAL,new PriceInfo(10,16)),new EntityDwarf.ListItemForEmeralds(Items.REDSTONE,new EntityDwarf.PriceInfo(-6,-2)),new ListItemForEmeralds(Items.MINECART, new PriceInfo(7,15)),new EmeraldForItems(Item.getItemFromBlock(Blocks.RAIL), new PriceInfo(-3,1)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.GOLDEN_RAIL),new PriceInfo(2,6)),new ListItemForEmeralds(new ItemStack(Items.DYE,1,EnumDyeColor.BLUE.getDyeDamage()), new PriceInfo(4, 2)), new EmeraldForItems(Items.GOLD_INGOT,new PriceInfo(5,7)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.TNT),new PriceInfo(11,16))},{new ListItemForEmeralds(Items.QUARTZ,new PriceInfo(1,4)),new ListEnchantedItemForEmeralds(Itemsinit.GREAT_PICKAXE,new PriceInfo(45,64))}}},
+            {{{new ListItemForEmeralds(Itemsinit.Cartridge,new PriceInfo(1,4)),new EmeraldForItems(Items.GUNPOWDER,new PriceInfo(1,3)),new ListItemForEmeralds(Itemsinit.Grenade,new PriceInfo(3,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4)),},{new ListItemForEmeralds(utils.getRandomShield(),new PriceInfo(12,23)),new ListItemForEmeralds(Itemsinit.thunderer_hangun,new PriceInfo(21,36))},{new ListEnchantedItemForEmeralds(utils.getRandomarmor(1),new PriceInfo(16,19)),new ListEnchantedItemForEmeralds(utils.getRandomarmor(0),new PriceInfo(16,19))},{new ListItemForEmeralds(Itemsinit.Drakegun,new PriceInfo(43,60))}}},
+            {{{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CLAY),new PriceInfo(1,4)),new EmeraldForItems(new ItemStack(Item.getItemFromBlock(Blocks.NETHER_BRICK), 1, 0),new PriceInfo(16,8)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.RED_SANDSTONE),new PriceInfo(2,7))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.CONCRETE_POWDER),new PriceInfo(2,7)),new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,4))},{new ListItemForEmeralds(Item.getItemFromBlock(Blocks.QUARTZ_BLOCK),new PriceInfo(2,4)),new ListItemForEmeralds(Item.getItemFromBlock(Blocks.PURPUR_BLOCK),new PriceInfo(3,7))}}},
+            {{{new EmeraldForItems(Itemsinit.beer,new PriceInfo(3,6))},{new EmeraldForItems(Items.ROTTEN_FLESH,new PriceInfo(58,64))},{new EmeraldForItems(Items.PRISMARINE_CRYSTALS,new PriceInfo(2,5))},{new EmeraldForItems(Items.BLAZE_ROD,new PriceInfo(2,4))},{new ListEnchantedItemForItemAndEmeralds(Items.NETHER_STAR,new PriceInfo(1,1),Itemsinit.GHAL_MARAZ,new PriceInfo(1,1))}}},
             {new EntityDwarf.ITradeList[0][]}};
 
 
@@ -1050,7 +1041,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         public void addMerchantRecipe(IMerchant merchant, MerchantRecipeList recipeList, Random random)
         {
 
-            ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(this.enchantedItemStack.getItem(), 1, this.enchantedItemStack.getMetadata()), 5 + random.nextInt(15), false);
+            ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(this.enchantedItemStack.getItem(), 1, this.enchantedItemStack.getMetadata()), 30, false);
             int i = this.buyingPriceInfo.getPrice(random);
             int j = this.sellingPriceInfo.getPrice(random);
             recipeList.add(new MerchantRecipe(new ItemStack(this.buyingItemStack.getItem(), i, this.buyingItemStack.getMetadata()), new ItemStack(Items.EMERALD), itemstack1, j, this.enchantedItemStack.getMetadata()));
@@ -1104,7 +1095,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
             }
 
             ItemStack itemstack = new ItemStack(Items.EMERALD, i, 0);
-            ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(this.enchantedItemStack.getItem(), 1, this.enchantedItemStack.getMetadata()), 5 + random.nextInt(15), false);
+            ItemStack itemstack1 = EnchantmentHelper.addRandomEnchantment(random, new ItemStack(this.enchantedItemStack.getItem(), 1, this.enchantedItemStack.getMetadata()), 16 + random.nextInt(15), false);
             recipeList.add(new MerchantRecipe(itemstack, itemstack1));
         }
     }

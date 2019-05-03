@@ -3,7 +3,6 @@ package warhammermod.Entities.living.Emanager;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.ai.RandomPositionGenerator;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.util.math.Vec3d;
 import warhammermod.Entities.living.EntityDwarf;
 

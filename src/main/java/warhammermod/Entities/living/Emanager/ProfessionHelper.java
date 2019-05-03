@@ -3,6 +3,7 @@ package warhammermod.Entities.living.Emanager;
 
 import com.google.common.collect.Lists;
 import warhammermod.Entities.living.EntityDwarf;
+
 import javax.annotation.Nullable;
 import java.util.Collections;
 import java.util.List;

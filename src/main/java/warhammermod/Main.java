@@ -1,14 +1,10 @@
 package warhammermod;
 
 
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.world.biome.Biome;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
-import net.minecraft.world.gen.structure.MapGenVillage;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Config;
 import net.minecraftforge.common.config.ConfigManager;
-import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -21,7 +17,6 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import warhammermod.Entities.living.Emanager.ProfessionHelper;
 import warhammermod.util.proxy.commonproxy;
 import warhammermod.util.reference;
-import warhammermod.util.utils;
 import warhammermod.worldgen.MapGenDwarfVillage;
 import warhammermod.worldgen.StructureDwarfVillagePieces;
 import warhammermod.worldgen.WorldGen;

@@ -1,8 +1,8 @@
 package warhammermod.Entities.living.Emanager;
 
 import net.minecraft.entity.ai.EntityAIBase;
-import warhammermod.Entities.living.EntityDwarf;
 import net.minecraft.entity.player.EntityPlayer;
+import warhammermod.Entities.living.EntityDwarf;
 
 public class EntityAIDTradePlayer extends EntityAIBase
 {
