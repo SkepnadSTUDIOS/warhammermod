@@ -3,16 +3,18 @@ package warhammermod.Entities;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.datafix.DataFixer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-public class EntityHalberd extends EntityThrowable
+public class EntityHalberd extends entitybullet
 {
     private float damage;
     private int fuse;
@@ -25,9 +27,10 @@ public class EntityHalberd extends EntityThrowable
     }
 
     public EntityHalberd(World worldIn, EntityLivingBase throwerIn,float AttackDamage) {
-        super(worldIn, throwerIn);
+        super(worldIn, throwerIn, (int) AttackDamage);
         damage=AttackDamage;
         entityplayer = (EntityPlayer) throwerIn;
+
         fuse=2;
     }
 
@@ -72,12 +75,12 @@ public class EntityHalberd extends EntityThrowable
     /**
      * Called when this EntityThrowable hits a block or entity.
      */
-    protected void onImpact(RayTraceResult result)
+    protected void onHit(RayTraceResult result)
     {
-        if (result.entityHit != null) {
+        if (result.entityHit != null && !world.isRemote) {
 
             damage += extradamage;
-            if (result.entityHit instanceof EntityLivingBase) {
+            if (result.entityHit instanceof EntityLivingBase && getDistance(entityplayer)*2<7) {
                 EntityLivingBase entitylivingbase = (EntityLivingBase) result.entityHit;
                 if (knocklevel > 0) {
                     float f1 = MathHelper.sqrt(this.motionX * this.motionX + this.motionZ * this.motionZ);
@@ -87,7 +90,7 @@ public class EntityHalberd extends EntityThrowable
                     }
                 }
                 if (result.entityHit != entityplayer)
-                    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), damage);
+                    result.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(entityplayer), damage);
             }
         }
             if (!this.world.isRemote) {
@@ -97,6 +100,17 @@ public class EntityHalberd extends EntityThrowable
     public void onEntityUpdate()
     {
         this.world.profiler.startSection("entityBaseTick");
+
+        if (this.isRiding() && this.getRidingEntity().isDead)
+        {
+            this.dismountRidingEntity();
+        }
+
+        if (this.rideCooldown > 0)
+        {
+            --this.rideCooldown;
+        }
+
         this.prevDistanceWalkedModified = this.distanceWalkedModified;
         this.prevPosX = this.posX;
         this.prevPosY = this.posY;
@@ -104,8 +118,38 @@ public class EntityHalberd extends EntityThrowable
         this.prevRotationPitch = this.rotationPitch;
         this.prevRotationYaw = this.rotationYaw;
 
+        if (!this.world.isRemote && this.world instanceof WorldServer)
+        {
+
+        }
+
+        this.spawnRunningParticles();
+        this.handleWaterMovement();
+
+        if (this.world.isRemote)
+        {
+            this.extinguish();
+        }
+
+
+        if (this.isInLava())
+        {
+            this.setOnFireFromLava();
+            this.fallDistance *= 0.5F;
+        }
+
+        if (this.posY < -64.0D)
+        {
+            this.outOfWorld();
+        }
+
+
+        this.firstUpdate = false;
+        this.world.profiler.endSection();
+
+        if(!this.world.isRemote){
         --fuse;
-        if(fuse<=0){setDead();}
+        if(fuse<=0){setDead();}}
 
 
 

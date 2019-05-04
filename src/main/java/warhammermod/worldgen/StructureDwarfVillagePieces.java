@@ -125,7 +125,7 @@ public class StructureDwarfVillagePieces{
         /** The number of villagers that have been spawned in this component. */
         private int villagersSpawned;
         protected int structureType;
-        protected boolean isZombieInfested;
+        protected boolean isZombieInfested=false;
         protected StructureDwarfVillagePieces.Start startPiece;
 
         public Village()
