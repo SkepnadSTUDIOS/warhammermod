@@ -60,7 +60,7 @@ public class EntityHalberd extends entitybullet
     private int knocklevel;
 
     public void setpowerDamage(int powerIn){
-        extradamage=1.5F*powerIn;
+        extradamage=1.4F*powerIn;
     }
     public void setknockbacklevel(int knockin){
         knocklevel=knockin;
