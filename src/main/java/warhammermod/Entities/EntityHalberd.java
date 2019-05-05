@@ -19,6 +19,7 @@ public class EntityHalberd extends entitybullet
     private float damage;
     private int fuse;
     private EntityPlayer entityplayer;
+    private boolean Throwon;
 
     public EntityHalberd(World worldIn)
     {
@@ -26,11 +27,11 @@ public class EntityHalberd extends entitybullet
 
     }
 
-    public EntityHalberd(World worldIn, EntityLivingBase throwerIn,float AttackDamage) {
+    public EntityHalberd(World worldIn, EntityLivingBase throwerIn,float AttackDamage,boolean throwon) {
         super(worldIn, throwerIn, (int) AttackDamage);
         damage=AttackDamage;
         entityplayer = (EntityPlayer) throwerIn;
-
+        Throwon=throwon;
         fuse=2;
     }
 
@@ -89,8 +90,12 @@ public class EntityHalberd extends entitybullet
                         entitylivingbase.addVelocity(this.motionX * (double) knocklevel * 0.6000000238418579D / (double) f1, 0.1D, this.motionZ * (double) knocklevel * 0.6000000238418579D / (double) f1);
                     }
                 }
-                if (result.entityHit != entityplayer)
-                    result.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(entityplayer), damage);
+                if (result.entityHit != entityplayer){
+                    if(Throwon){
+                    result.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this,entityplayer), damage);}
+                    else result.entityHit.attackEntityFrom(DamageSource.causePlayerDamage(entityplayer), damage);
+                }
+
             }
         }
             if (!this.world.isRemote) {

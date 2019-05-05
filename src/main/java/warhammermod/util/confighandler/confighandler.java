@@ -30,6 +30,9 @@ public class confighandler {
         public static boolean shields_included = true;
         @Config.RequiresMcRestart
         public static boolean gunsword_included = true;
+        @Config.RequiresMcRestart
+        @Config.Comment("put on true to add compatibility with with headshot mods \n on right click attack of the halberd")
+        public static boolean headshotmod_compatibility = false;
 
     }
     @Config(modid = reference.modid, type = Config.Type.INSTANCE, name = "items values")

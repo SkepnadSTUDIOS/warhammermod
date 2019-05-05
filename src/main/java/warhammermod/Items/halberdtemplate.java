@@ -19,6 +19,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import warhammermod.Entities.EntityHalberd;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+import warhammermod.util.confighandler.confighandler;
 
 import javax.annotation.Nullable;
 
@@ -30,6 +31,7 @@ public class halberdtemplate extends ItemSword {
     private int itemUseDuration = 72000;
     private ItemStack stack;
     private boolean canhit;
+    private boolean damagesourcethrow;
 
     public halberdtemplate(String name, Item.ToolMaterial material,float damage,float attspeed,boolean enabled){
         super(material);
@@ -38,6 +40,7 @@ public class halberdtemplate extends ItemSword {
         setRegistryName(name);
         attackSpeed=-attspeed;
         this.attackdamage = damage + material.getAttackDamage();
+        damagesourcethrow = confighandler.Config_enable.headshotmod_compatibility;
 
         if(enabled){Itemsinit.ITEMS.add(this);}
 
@@ -81,7 +84,7 @@ public class halberdtemplate extends ItemSword {
 
                 EntityPlayer playerIn = (EntityPlayer) entityLiving;
                 if(!worldIn.isRemote){
-                EntityHalberd halberdstrike = new EntityHalberd(worldIn, playerIn,attackdamage*1.3F);
+                EntityHalberd halberdstrike = new EntityHalberd(worldIn, playerIn,attackdamage*1.3F,damagesourcethrow);
                 halberdstrike.shoot(playerIn, playerIn.rotationPitch, playerIn.rotationYaw, 0.0F, 3F, 0.2F);
                 int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.SHARPNESS, stack);
                 if (j > 0) {
