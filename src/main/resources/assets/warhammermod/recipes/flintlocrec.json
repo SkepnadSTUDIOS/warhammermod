@@ -64,6 +64,10 @@
       {
         "item": "minecraft:log",
         "data": 5
+      },
+      {
+        "item": "minecraft:log2",
+        "data": 0
       }
     ]
 

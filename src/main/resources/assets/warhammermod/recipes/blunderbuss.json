@@ -2,9 +2,9 @@
   "type": "minecraft:crafting_shaped",
 
   "pattern": [
-    "F  ",
+    "IIF",
     "III",
-    "LPP"
+    "PPL"
   ],
 
   "key": {
@@ -75,7 +75,7 @@
 
   "result":
   {
-    "item": "warhammermod:musket",
+    "item": "warhammermod:blunderbuss",
     "count": 1
   }
 }
