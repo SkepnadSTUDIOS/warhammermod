@@ -62,7 +62,7 @@ public class confighandler {
         public static int gunsword_damage = 8;
 
         @Config.RequiresMcRestart
-        @Config.RangeDouble(min=0,max=50)
+        @Config.RangeInt(min=0,max=50)
         public static int blunderbusses_damage = 21;
 
         @Config.RequiresMcRestart
@@ -96,7 +96,7 @@ public class confighandler {
         public static int drakegun_reload_speed = 40;
 
         @Config.RequiresMcRestart
-        @Config.RangeDouble(min=0,max=50)
+        @Config.RangeInt(min=0,max=100)
         public static int blunderbusses_speed = 40;
 
         @Config.RequiresMcRestart
