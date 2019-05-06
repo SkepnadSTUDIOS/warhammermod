@@ -119,9 +119,8 @@ public class guntemplate extends ItemBow {
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) entityLiving;
             System.out.println(getUnlocalizedName(stack));
-            if(readytoFire) {if(getUnlocalizedName(stack).equals("item.flintlock pistol")){worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.3F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
-            }
-                else worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 0.7F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
+            if(readytoFire) {
+                worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.35F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
 
 
                 if (!worldIn.isRemote) {

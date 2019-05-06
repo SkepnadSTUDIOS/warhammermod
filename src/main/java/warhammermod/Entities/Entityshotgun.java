@@ -41,15 +41,15 @@ public class Entityshotgun extends entitybullet {
     }
     protected void onHit(RayTraceResult raytraceResultIn) {
         Entity entity = raytraceResultIn.entityHit;
-        if (entity != null) {
+        if (entity != null && !world.isRemote) {
             float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
             float i=0;
             distance=getDistance(entityplayer);
             System.out.println(distance);
             if(distance<8.08) i = bulletdamage + extradamage;
             else if(distance<14) i = (bulletdamage + extradamage)/2;
-            else if (distance<21) i = (bulletdamage + extradamage)/5;
-            else this.setDead();
+            else if (distance<23) i = (bulletdamage + extradamage)/5;
+            else {this.setDead();return;}
 
             DamageSource damagesource;
 

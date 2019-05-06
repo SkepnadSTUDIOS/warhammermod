@@ -82,7 +82,7 @@ public class shotguntemplate extends guntemplate {
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) entityLiving;
             if(readytoFire) {
-                worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 0.7F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
+                worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.2F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
 
 
                 if (!worldIn.isRemote) {

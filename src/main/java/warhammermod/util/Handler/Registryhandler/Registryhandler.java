@@ -54,7 +54,7 @@ public class Registryhandler {
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"grenade"), EntityGrenade.class,"grenade_entity",2,reference.modid,64,30,true);
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"halberd"), EntityHalberd.class,"halberd_entity",3,reference.modid,10,30,true);
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"dwarf"), EntityDwarf.class,"dwarf",4,reference.modid,64,1,true,1599971,15721509);
-        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"shotgun pellet"), Entityshotgun.class,"bullet",0,reference.modid,64,30,true);
+        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"shotgun pellet"), Entityshotgun.class,"bullets",5,reference.modid,64,30,true);
     }
 
     /*public SoundEvent registerSound(String name) {
