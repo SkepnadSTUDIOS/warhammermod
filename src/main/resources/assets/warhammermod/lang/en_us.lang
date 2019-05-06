@@ -1,6 +1,7 @@
 item.cartridge.name=cartridge
 item.bullet.name=bullet
 item.grenade.name=grenade
+item.shotgun shells.name=shotgun shells
 
 item.beer.name=beer
 
@@ -8,6 +9,8 @@ item.Ghal Maraz.name=Ghal Maraz
 item.war pick.name=war pick
 item.Drakegun.name=drakegun
 item.thunderer handgun.name=thunderer handgun
+item.GrudgeRaker.name=Grudge-Raker
+item.blunderbuss.name=blunderbuss
 
 item.diamond chainmail helmet.name=diamond chainmail helmet
 item.diamond chainmail.name=diamond chainmail

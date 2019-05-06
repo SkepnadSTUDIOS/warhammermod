@@ -22,7 +22,7 @@ public class Itemsinit {
     public static final ItemBow Drakegun = new DrakeGunTemplate("Drakegun",getvalues.getdga,getvalues.getdgs,10,true);
     public static final guntemplate thunderer_hangun = new guntemplate("thunderer handgun",1,getvalues.getrfs,getvalues.getrfd+3,540,true);
     public static final Item blunderbuss = new shotguntemplate("blunderbuss",1,getvalues.getSGs,300,true);
-    public static final Item GrudgeRakeer = new shotguntemplate("GrudgeRaker",2,getvalues.getSGs+5,450,true);
+    public static final Item GrudgeRaker = new shotguntemplate("GrudgeRaker",2,getvalues.getSGs+5,450,true);
 
     public static final GreatPickaxe GREAT_PICKAXE = new GreatPickaxe("war pick",2.6F,2F,Item.ToolMaterial.DIAMOND,true);
     public static final GhalMaraz GHAL_MARAZ = new GhalMaraz("Ghal Maraz", Item.ToolMaterial.DIAMOND,getvalues.getGMd,getvalues.getGMs,true);
