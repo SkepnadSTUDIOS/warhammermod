@@ -19,7 +19,7 @@ import java.util.List;
 public class GhalMaraz extends heavytemplate {
     ToolMaterial Material;
     public GhalMaraz(String name, Item.ToolMaterial material, float damage, float attspeed, boolean enabled) {
-        super(name, material, damage, attspeed, enabled);
+        super(name, material, damage, attspeed);
         setMaxDamage((int) (material.getMaxUses() * 1.4));
         Material=material;
     }

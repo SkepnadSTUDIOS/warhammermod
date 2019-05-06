@@ -14,10 +14,7 @@ import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import warhammermod.Entities.EntityGrenade;
-import warhammermod.Entities.EntityHalberd;
-import warhammermod.Entities.Entityspear;
-import warhammermod.Entities.entitybullet;
+import warhammermod.Entities.*;
 import warhammermod.Entities.living.EntityDwarf;
 import warhammermod.Entities.living.Render.RenderDwarf;
 import warhammermod.util.Handler.inithandler.Itemsinit;
@@ -57,6 +54,7 @@ public class Registryhandler {
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"grenade"), EntityGrenade.class,"grenade_entity",2,reference.modid,64,30,true);
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"halberd"), EntityHalberd.class,"halberd_entity",3,reference.modid,10,30,true);
         EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"dwarf"), EntityDwarf.class,"dwarf",4,reference.modid,64,1,true,1599971,15721509);
+        EntityRegistry.registerModEntity(new ResourceLocation(reference.modid+":"+"shotgun pellet"), Entityshotgun.class,"bullet",0,reference.modid,64,30,true);
     }
 
     /*public SoundEvent registerSound(String name) {

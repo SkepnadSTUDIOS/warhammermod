@@ -62,6 +62,10 @@ public class confighandler {
         public static int gunsword_damage = 8;
 
         @Config.RequiresMcRestart
+        @Config.RangeDouble(min=0,max=50)
+        public static int blunderbusses_damage = 21;
+
+        @Config.RequiresMcRestart
         @Config.RangeDouble(min=-5,max=20)
         @Config.Comment("for reference the sword has a speed of 2.4 (lower is faster)")
         public static double spear_speed = 2;
@@ -90,6 +94,10 @@ public class confighandler {
         @Config.RequiresMcRestart
         @Config.RangeInt(min=0,max=1000)
         public static int drakegun_reload_speed = 40;
+
+        @Config.RequiresMcRestart
+        @Config.RangeDouble(min=0,max=50)
+        public static int blunderbusses_speed = 40;
 
         @Config.RequiresMcRestart
         @Config.RangeInt(min=1,max=100000)
@@ -136,6 +144,8 @@ public class confighandler {
         public static int getdgs=Config_values.drakegun_reload_speed;
         public static float getGMs=(float) Config_values.Ghal_maraz_speed;
         public static float getGMd=(float) Config_values.Ghal_maraz_damage;
+        public static int getSGd= Config_values.blunderbusses_damage;
+        public static int getSGs=Config_values.blunderbusses_speed;
 
     }
 }

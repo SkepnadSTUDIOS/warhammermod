@@ -1,61 +1,25 @@
 package warhammermod.Items;
 
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.EnumAction;
-import net.minecraft.item.IItemPropertyGetter;
-import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
-import org.lwjgl.Sys;
-import warhammermod.Entities.entitybullet;
-import warhammermod.util.Handler.inithandler.Itemsinit;
+import warhammermod.Entities.Entityshotgun;
+import warhammermod.util.confighandler.confighandler;
 
-import javax.annotation.Nullable;
-
-public class guntemplate extends ItemBow {
-    int magsize;
-    int timetoreload;
-    protected int ammocount = 0;
-    protected NBTTagCompound ammocounter;
-    private NBTTagCompound reloader;
-
-
-
-
-
-    public boolean readytoFire;
-    public int damage;
-
-
-    public guntemplate(String name, int MagSize, int time, int damagein,int durability, boolean enabled) {
-        setUnlocalizedName(name);
-        setRegistryName(name);
-        if(enabled){ Itemsinit.ITEMS.add(this);}
-        setCreativeTab(CreativeTabs.COMBAT);
-        magsize = MagSize;
-        timetoreload = time;
-        this.maxStackSize = 1;
-        this.setMaxDamage(durability);
-        damage = damagein;
-        this.addPropertyOverride(new ResourceLocation("reloading"), new IItemPropertyGetter()
-        {
-            @SideOnly(Side.CLIENT)
-            public float apply(ItemStack stack, @Nullable World worldIn, @Nullable EntityLivingBase entityIn)
-            {
-                reloader=stack.getTagCompound();
-                return entityIn != null && entityIn instanceof EntityPlayer && !((EntityPlayer) entityIn).capabilities.isCreativeMode && entityIn.isHandActive() && entityIn.getActiveItemStack() == stack  && (reloader==null || reloader.getInteger("ammo")<=0) ? 1.0F : 0.0F;
-            }
-        });
+public class shotguntemplate extends guntemplate {
+    public shotguntemplate(String name,int magsize,int timetoreload,int durability,boolean enabled){
+        super(name,magsize,timetoreload, confighandler.Config_values.blunderbusses_damage,durability,enabled);
     }
+
     @Override
     public ActionResult<ItemStack> onItemRightClick(World worldIn, EntityPlayer playerIn, EnumHand handIn) {
         ItemStack itemstack = playerIn.getHeldItem(handIn);
@@ -114,18 +78,15 @@ public class guntemplate extends ItemBow {
 
     }
 
-
     public void onPlayerStoppedUsing(ItemStack stack, World worldIn, EntityLivingBase entityLiving, int timeLeft) {
         if (entityLiving instanceof EntityPlayer) {
             EntityPlayer entityplayer = (EntityPlayer) entityLiving;
-            System.out.println(getUnlocalizedName(stack));
-            if(readytoFire) {if(getUnlocalizedName(stack).equals("item.flintlock pistol")){worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 1.3F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
-            }
-                else worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 0.7F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
+            if(readytoFire) {
+                worldIn.playSound(null, entityplayer.posX, entityplayer.posY, entityplayer.posZ, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 1.0F, 0.7F / (itemRand.nextFloat() * 0.4F + 1.2F) + 1.0F * 0.5F);
 
 
                 if (!worldIn.isRemote) {
-                    entitybullet entitybullet = new entitybullet(worldIn, entityplayer, damage);
+                    Entityshotgun entitybullet = new Entityshotgun(worldIn, entityplayer, damage);
                     entitybullet.shoot(entityplayer, entityplayer.rotationPitch, entityplayer.rotationYaw, 0.0F, 4F, 0.2F);
 
                     int j = EnchantmentHelper.getEnchantmentLevel(Enchantments.POWER, stack);
@@ -147,27 +108,22 @@ public class guntemplate extends ItemBow {
             }
 
 
-                if (!entityplayer.capabilities.isCreativeMode && !worldIn.isRemote) {
-                    ammocounter = stack.getTagCompound();
-                    if (ammocounter == null) {
-                        ammocounter = new NBTTagCompound();
-                        ammocounter.setInteger("ammo", ammocount);
-                        ammocount=0;
-                    }else if(ammocount>0){
-                        ammocounter.setInteger("ammo",ammocount);
+            if (!entityplayer.capabilities.isCreativeMode && !worldIn.isRemote) {
+                ammocounter = stack.getTagCompound();
+                if (ammocounter == null) {
+                    ammocounter = new NBTTagCompound();
+                    ammocounter.setInteger("ammo", ammocount);
+                    ammocount=0;
+                }else if(ammocount>0){
+                    ammocounter.setInteger("ammo",ammocount);
                     ammocount=0;}
-                    else{
-                        ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") -1);
-                    }
-                    stack.setTagCompound(ammocounter);
+                else{
+                    ammocounter.setInteger("ammo", ammocounter.getInteger("ammo") -1);
                 }
+                stack.setTagCompound(ammocounter);
+            }
         }
     }
-
-
-
-
-
 
     private ItemStack findAmmo(EntityPlayer player) {
         if (this.isAmmo(player.getHeldItem(EnumHand.OFF_HAND))) {
@@ -187,18 +143,8 @@ public class guntemplate extends ItemBow {
         }
     }
 
+
     private boolean isAmmo(ItemStack stack) {
         return stack.getItem() instanceof Cartridge;
     }
-    public int getMaxItemUseDuration(ItemStack stack) {
-        return 72000;
-    }
-    public EnumAction getItemUseAction(ItemStack stack) {
-        return EnumAction.BOW;
-    }
-    public int getItemEnchantability() { return 1; }
-    private int getAmmocount(ItemStack item,int ammo){
-        return 0;
-    }
 }
-

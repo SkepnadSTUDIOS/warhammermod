@@ -1,8 +1,5 @@
 package warhammermod.Entities;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -11,66 +8,22 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.network.play.server.SPacketChangeGameState;
 import net.minecraft.util.DamageSource;
-import net.minecraft.util.EntitySelectors;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import javax.annotation.Nullable;
+public class Entityshotgun extends entitybullet {
+    private float distance;
 
-
-public class entitybullet extends EntityArrow {
-    private static final Predicate<Entity> ARROW_TARGETS = Predicates.and(EntitySelectors.NOT_SPECTATING, EntitySelectors.IS_ALIVE, new Predicate<Entity>() {
-        public boolean apply(@Nullable Entity p_apply_1_) {
-            return p_apply_1_.canBeCollidedWith();
-        }
-    });
-    private static final DataParameter<Byte> CRITICAL = EntityDataManager.createKey(EntityArrow.class, DataSerializers.BYTE);
-    int xTile;
-    int yTile;
-    int zTile;
-    private Block inTile;
-    private int inData;
-    protected boolean inGround;
-    protected int timeInGround;
-    /**
-     * Seems to be some sort of timer for animating an arrow.
-     */
-    public int arrowShake;
-    /**
-     * The owner of this arrow.
-     */
-    public Entity shootingEntity;
-    private int ticksInGround;
-    private int ticksInAir;
-    double damage;
-    /**
-     * The amount of knockback an arrow applies when it hits a mob.
-     */
-    private int knockbackStrength;
-
-    protected ItemStack getArrowStack() {
-        return null;
+    public Entityshotgun(World worldIn, EntityLivingBase throwerIn, int damagein){
+        super(worldIn,throwerIn,damagein);
     }
 
-    protected int bulletdamage;
-    protected float extradamage;
-    protected int knocklevel;
-    EntityLivingBase entityplayer;
-
-    public entitybullet(World worldIn, EntityLivingBase throwerIn, int damagein) {
-        super(worldIn, throwerIn);
-        bulletdamage = damagein;
-        entityplayer =  throwerIn;
-    }
-
-    public entitybullet(World worldIn) {
+    public Entityshotgun(World worldIn) {
         super(worldIn);
         this.xTile = -1;
         this.yTile = -1;
@@ -81,29 +34,27 @@ public class entitybullet extends EntityArrow {
 
     }
 
-    public entitybullet(World worldIn, double x, double y, double z)
+    public Entityshotgun(World worldIn, double x, double y, double z)
     {
         this(worldIn);
         this.setPosition(x, y, z);
     }
-
-    public void setpowerDamage(int powerIn){
-        extradamage=1.5F*powerIn;
-    }
-    public void setknockbacklevel(int knockin){
-        knocklevel=knockin;
-    }
-
     protected void onHit(RayTraceResult raytraceResultIn) {
         Entity entity = raytraceResultIn.entityHit;
         if (entity != null) {
             float f = MathHelper.sqrt(this.motionX * this.motionX + this.motionY * this.motionY + this.motionZ * this.motionZ);
-            float i = bulletdamage + extradamage;
+            float i=0;
+            distance=getDistance(entityplayer);
+            System.out.println(distance);
+            if(distance<8.08) i = bulletdamage + extradamage;
+            else if(distance<14) i = (bulletdamage + extradamage)/2;
+            else if (distance<21) i = (bulletdamage + extradamage)/5;
+            else this.setDead();
 
             DamageSource damagesource;
 
             if (this.shootingEntity == null) {
-                damagesource = DamageSource.causeArrowDamage(this,entityplayer);
+                damagesource = DamageSource.causeArrowDamage(this,this);
             } else {
                 damagesource = DamageSource.causeArrowDamage(this, entityplayer);
             }
@@ -151,8 +102,11 @@ public class entitybullet extends EntityArrow {
         }
 
     }
-
-
-
-
+    @SideOnly(Side.CLIENT)
+    public boolean isInRangeToRender3d(double x, double y, double z) { return false; }
+    /**
+     * Checks if the entity is in range to render.
+     */
+    @SideOnly(Side.CLIENT)
+    public boolean isInRangeToRenderDist(double distance) { return false; }
 }

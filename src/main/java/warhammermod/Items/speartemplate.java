@@ -18,6 +18,8 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import warhammermod.Entities.Entityspear;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+import warhammermod.util.confighandler.confighandler;
+import warhammermod.util.confighandler.confighandler.getvalues;
 
 import java.util.Set;
 
@@ -26,8 +28,8 @@ public class speartemplate extends ItemTool {
     private final Item.ToolMaterial mat;
     private final float throwingdamage;
 
-    public speartemplate(String name,float damage,float attspeed, Item.ToolMaterial material,boolean enabled) {
-        super(damage, attspeed, material, EFFECTIVE_ON);
+    public speartemplate(String name, Item.ToolMaterial material) {
+        super(getvalues.getspd, -getvalues.getsps, material, EFFECTIVE_ON);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
@@ -55,7 +57,7 @@ public class speartemplate extends ItemTool {
         }
         throwingdamage = i;
 
-        if(enabled){Itemsinit.ITEMS.add(this);}
+        if(confighandler.Config_enable.spears_included){Itemsinit.ITEMS.add(this);}
     }
 
     public boolean canApplyAtEnchantingTable(ItemStack stack, net.minecraft.enchantment.Enchantment enchantment) {

@@ -33,16 +33,16 @@ public class halberdtemplate extends ItemSword {
     private boolean canhit;
     private boolean damagesourcethrow;
 
-    public halberdtemplate(String name, Item.ToolMaterial material,float damage,float attspeed,boolean enabled){
+    public halberdtemplate(String name, Item.ToolMaterial material){
         super(material);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
-        attackSpeed=-attspeed;
-        this.attackdamage = damage + material.getAttackDamage();
+        attackSpeed=-confighandler.getvalues.gethbs;
+        this.attackdamage = confighandler.getvalues.gethbd + material.getAttackDamage();
         damagesourcethrow = confighandler.Config_enable.headshotmod_compatibility;
 
-        if(enabled){Itemsinit.ITEMS.add(this);}
+        if(confighandler.Config_enable.halberds_included){Itemsinit.ITEMS.add(this);}
 
         this.addPropertyOverride(new ResourceLocation("powerhit"), new IItemPropertyGetter()
         {

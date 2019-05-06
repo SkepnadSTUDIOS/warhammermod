@@ -242,6 +242,11 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         return false;
     }
 
+    protected float getSoundPitch()
+    {
+        return this.isChild() ? (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.5F : (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 0.6F;
+    }
+
     protected SoundEvent getAmbientSound()
     {
         return this.isTrading() ? SoundEvents.ENTITY_VILLAGER_TRADING : SoundEvents.ENTITY_VILLAGER_AMBIENT;

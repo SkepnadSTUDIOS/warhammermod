@@ -12,6 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+import warhammermod.util.confighandler.confighandler;
 
 
 public class heavytemplate extends ItemSword {
@@ -21,15 +22,26 @@ public class heavytemplate extends ItemSword {
 
 
 
-    public heavytemplate(String name, Item.ToolMaterial material,float damage,float attspeed,boolean enabled){
+    public heavytemplate(String name, Item.ToolMaterial material){
+        super(material);
+        setUnlocalizedName(name);
+        setCreativeTab(CreativeTabs.COMBAT);
+        setRegistryName(name);
+        attackSpeed=-confighandler.getvalues.getwhs;
+        this.attackdamage = confighandler.getvalues.getwhs + material.getAttackDamage()*2F;
+
+        if(confighandler.Config_enable.hammers_included){Itemsinit.ITEMS.add(this);}
+    }
+
+    public heavytemplate(String name, Item.ToolMaterial material,float damagein,float attspeed){
         super(material);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
         attackSpeed=-attspeed;
-        this.attackdamage = damage + material.getAttackDamage()*2F;
+        this.attackdamage = damagein + material.getAttackDamage()*2F;
 
-        if(enabled){Itemsinit.ITEMS.add(this);}
+        Itemsinit.ITEMS.add(this);
     }
 
     @Override
