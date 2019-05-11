@@ -1,8 +1,14 @@
 package warhammermod.Entities.living.Render;
 
+import net.minecraft.client.model.ModelIllager;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntityVindicator;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,9 +25,26 @@ public class RenderDwarf extends RenderLiving<EntityDwarf>
     public RenderDwarf(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelDwarf(0.0F), 0.5F);
-
+        this.addLayer(new LayerHeldItem(this)
+        {
+            public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+            {
+                if (((EntityDwarf)entitylivingbaseIn).isAggressive(1))
+                {
+                    super.doRenderLayer(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
+                }
+            }
+            protected void translateToHand(EnumHandSide p_191361_1_)
+            {
+                ((ModelDwarf)this.livingEntityRenderer.getMainModel()).getArm(p_191361_1_).postRender(0.0625F);
+            }
+        });
     }
 
+    public void doRender(EntityDwarf entity, double x, double y, double z, float entityYaw, float partialTicks)
+    {
+        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+    }
 
 
 

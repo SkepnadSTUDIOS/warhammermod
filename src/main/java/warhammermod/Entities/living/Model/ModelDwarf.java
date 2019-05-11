@@ -3,9 +3,13 @@ package warhammermod.Entities.living.Model;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.monster.AbstractIllager;
+import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import warhammermod.Entities.living.EntityDwarf;
 
 @SideOnly(Side.CLIENT)
 public class ModelDwarf extends ModelBiped
@@ -23,7 +27,9 @@ public class ModelDwarf extends ModelBiped
     public ModelRenderer villagerNose;
     public ModelRenderer villagerbeard;
     public ModelRenderer villagermustache1;
-    public ModelRenderer villagermustache2;
+    public ModelRenderer rightArm;
+    public ModelRenderer leftArm;
+    public ModelRenderer arms;
 
     public ModelDwarf(float scale)
     {
@@ -69,6 +75,13 @@ public class ModelDwarf extends ModelBiped
         //this.bipedHeadwear = new ModelRenderer(this, 32, 0);
         //this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, scale + 0.5F);
         //this.bipedHeadwear.setRotationPoint(0.0F, 0.0F + p_i1164_2_, 0.0F);
+        this.rightArm = (new ModelRenderer(this, 40, 46)).setTextureSize(width, height);
+        this.rightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, scale);
+        this.rightArm.setRotationPoint(-5.0F, 2.0F + p_i1164_2_, 0.0F);
+        this.leftArm = (new ModelRenderer(this, 40, 46)).setTextureSize(width, height);
+        this.leftArm.mirror = true;
+        this.leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, scale);
+        this.leftArm.setRotationPoint(5.0F, 2.0F + p_i1164_2_, 0.0F);
     }
 
     /**
@@ -81,8 +94,22 @@ public class ModelDwarf extends ModelBiped
         this.villagerBody.render(scale);
         this.rightVillagerLeg.render(scale);
         this.leftVillagerLeg.render(scale);
-        this.villagerArms.render(scale+0.009F);
-        //this.bipedHeadwear.render(scale+0.05F);
+        //this.villagerArms.render(scale+0.009F);
+
+        if(entityIn instanceof EntityDwarf){
+        EntityDwarf entityDwarf = (EntityDwarf)entityIn;
+        if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.CROSSED)
+        {
+            this.villagerArms.render(scale+0.009F);
+
+        }
+        else
+        {
+
+            this.rightArm.render(scale);
+            this.leftArm.render(scale);
+        }
+        }
     }
 
     /**
@@ -90,16 +117,53 @@ public class ModelDwarf extends ModelBiped
      * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
      * "far" arms and legs can swing at most.
      */
-    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn)
-    {
+    public void setRotationAngles(float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scaleFactor, Entity entityIn) {
         this.villagerHead.rotateAngleY = netHeadYaw * 0.017453292F;
         this.villagerHead.rotateAngleX = headPitch * 0.017453292F;
         this.villagerArms.rotationPointY = 3.0F;
         this.villagerArms.rotationPointZ = -1.0F;
         this.villagerArms.rotateAngleX = -0.75F;
         this.rightVillagerLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F) * 1.4F * limbSwingAmount * 0.5F;
-        this.leftVillagerLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float)Math.PI) * 1.4F * limbSwingAmount * 0.5F;
+        this.leftVillagerLeg.rotateAngleX = MathHelper.cos(limbSwing * 0.6662F + (float) Math.PI) * 1.4F * limbSwingAmount * 0.5F;
         this.rightVillagerLeg.rotateAngleY = 0.0F;
         this.leftVillagerLeg.rotateAngleY = 0.0F;
+
+        if(entityIn instanceof EntityDwarf){
+            EntityDwarf entityDwarf = (EntityDwarf)entityIn;
+            if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.ATTACKING)
+            {
+                float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
+                float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
+                this.rightArm.rotateAngleZ = 0.0F;
+                this.leftArm.rotateAngleZ = 0.0F;
+                this.rightArm.rotateAngleY = 0.15707964F;
+                this.leftArm.rotateAngleY = -0.15707964F;
+
+                if (((EntityLivingBase)entityIn).getPrimaryHand() == EnumHandSide.RIGHT)
+                {
+                    this.rightArm.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
+                    this.leftArm.rotateAngleX = -0.0F + MathHelper.cos(ageInTicks * 0.19F) * 0.5F;
+                    this.rightArm.rotateAngleX += f * 2.2F - f1 * 0.4F;
+                    this.leftArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
+                }
+                else
+                {
+                    this.rightArm.rotateAngleX = -0.0F + MathHelper.cos(ageInTicks * 0.19F) * 0.5F;
+                    this.leftArm.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
+                    this.rightArm.rotateAngleX += f * 1.2F - f1 * 0.4F;
+                    this.leftArm.rotateAngleX += f * 2.2F - f1 * 0.4F;
+                }
+
+                this.rightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+                this.leftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
+                this.rightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+                this.leftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+            }
+        }
+
+    }
+    public ModelRenderer getArm (EnumHandSide p_191216_1_)
+    {
+        return p_191216_1_ == EnumHandSide.LEFT ? this.leftArm : this.rightArm;
     }
 }

@@ -1,5 +1,7 @@
 package warhammermod.Entities.living;
 
+import com.google.common.base.Predicate;
+import com.sun.istack.internal.Nullable;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -14,6 +16,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,15 +52,17 @@ import org.apache.logging.log4j.Logger;
 import warhammermod.Entities.living.Emanager.*;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 import warhammermod.util.utils;
-
-import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.Random;
 
 public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
 {
+    private int attackTimer;
+    private int randomSoundDelay=0;
+
     private static final Logger LOGGER = LogManager.getLogger();
     public static final DataParameter<Integer> DWARF_PROFESSION = EntityDataManager.createKey(EntityDwarf.class, DataSerializers.VARINT);
+    public static final DataParameter<Byte> AGGRESSIVE = EntityDataManager.createKey(EntityDwarf.class, DataSerializers.BYTE);
     private int randomTickDivider;
     private boolean isMating;
     private boolean isPlaying;
@@ -127,6 +132,17 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         this.tasks.addTask(9, new EntityAIDVillagerInteract(this));
         this.tasks.addTask(9, new EntityAIWanderAvoidWater(this, 0.6D));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityLiving.class, 8.0F));
+
+        this.tasks.addTask(1, new EntityAIAttackMelee(this, 1.0D, true));
+        this.tasks.addTask(2, new EntityAIMoveTowardsTarget(this, 0.9D, 32.0F));
+        this.targetTasks.addTask(2, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.targetTasks.addTask(3, new EntityAINearestAttackableTarget(this, EntityLiving.class, 10, false, true, new Predicate<EntityLiving>(){
+            public boolean apply(@javax.annotation.Nullable EntityLiving p_apply_1_)
+            {
+                return p_apply_1_ != null && IMob.VISIBLE_MOB_SELECTOR.apply(p_apply_1_) && !(p_apply_1_ instanceof EntityCreeper);
+            }
+        }));
+
     }
 
     private void setAdditionalAItasks()
@@ -165,7 +181,10 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
+        getAttributeMap().registerAttribute(SharedMonsterAttributes.ATTACK_DAMAGE);
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
+        this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(12.0D);
     }
 
     protected void updateAITasks()
@@ -193,6 +212,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
                 }
             }
         }
+
 
         if (!this.isTrading() && this.timeUntilReset > 0)
         {
@@ -223,14 +243,19 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
                 this.addPotionEffect(new PotionEffect(MobEffects.REGENERATION, 200, 0));
             }
         }
-
         super.updateAITasks();
+        if(getAttackTarget()!=null){
+            this.playSound(SoundEvents.ENTITY_VILLAGER_NO, this.getSoundVolume() * 1.0F, (this.rand.nextFloat() * 0.2F + 0.5F));
+        }
+
+        this.setAggressive(1,this.getAttackTarget() != null);
     }
 
     protected void entityInit()
     {
         super.entityInit();
         this.dataManager.register(DWARF_PROFESSION, Integer.valueOf(0));
+        this.dataManager.register(AGGRESSIVE,Byte.valueOf((byte)0));
     }
 
 
@@ -448,6 +473,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         }
 
         compound.setTag("Inventory", nbttaglist);
+
     }
 
     @Nullable
@@ -573,6 +599,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         this.setCanPickUpLoot(true);
         this.setAdditionalAItasks();
     }
+
 
     public void useRecipe(MerchantRecipe recipe)
     {
@@ -766,6 +793,8 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
+        this.setEquipmentBasedOnDifficulty(difficulty);
+        this.setEnchantmentBasedOnDifficulty(difficulty);
         return this.finalizeMobSpawn(difficulty, livingdata, true);
     }
 
@@ -1238,87 +1267,123 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         else if (prof==3)return"builder";
         else return "lord";
     }
+    //entityageable override
+    @Override
+    public void onLivingUpdate()
+    {
+        super.onLivingUpdate();
 
-
-    /*{{{new EntityDwarf.EmeraldForItems(Items.COAL,new EntityDwarf.PriceInfo(10,16)),new EntityDwarf.ListItemForEmeralds(Items.REDSTONE,new EntityDwarf.PriceInfo(-6,-2)), new ListItemForEmeralds(Items.MINECART, new PriceInfo(7,15)), new EmeraldForItems(Item.getItemFromBlock(Blocks.RAIL), new PriceInfo(1,3)), new EmeraldForItems(Itemsinit.beer,new PriceInfo(2,3))},
-        {new ListItemForEmeralds(Item.getItemFromBlock(Blocks.GOLDEN_RAIL),new PriceInfo(2,6)),new ListItemForEmeralds(new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), new EntityDwarf.PriceInfo(-4, -2))), new EmeraldForItems(Items.GOLD_INGOT,new PriceInfo(5,7)), new ListItemForEmeralds(Item.getItemFromBlock(Blocks.TNT),new PriceInfo(11,16))},
-        {new ListItemForEmeralds(Items.QUARTZ,new PriceInfo(1,5)),new ListEnchantedItemForEmeralds(Itemsinit.GREAT_PICKAXE,new PriceInfo(45,64))}},*/
-
-
-
-
-    /*{{
+        if (this.world.isRemote)
         {
-            {new EntityDwarf.EmeraldForItems(Items.WHEAT, new EntityDwarf.PriceInfo(18, 22)), new EntityDwarf.EmeraldForItems(Items.POTATO, new EntityDwarf.PriceInfo(15, 19)), new EntityDwarf.EmeraldForItems(Items.CARROT, new EntityDwarf.PriceInfo(15, 19)), new EntityDwarf.ListItemForEmeralds(Items.BREAD, new EntityDwarf.PriceInfo(-4, -2))},
-            {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.PUMPKIN), new EntityDwarf.PriceInfo(8, 13)), new EntityDwarf.ListItemForEmeralds(Items.PUMPKIN_PIE, new EntityDwarf.PriceInfo(-3, -2))},
-            {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.MELON_BLOCK), new EntityDwarf.PriceInfo(7, 12)), new EntityDwarf.ListItemForEmeralds(Items.APPLE, new EntityDwarf.PriceInfo(-7, -5))},
-            {new EntityDwarf.ListItemForEmeralds(Items.COOKIE, new EntityDwarf.PriceInfo(-10, -6)), new EntityDwarf.ListItemForEmeralds(Items.CAKE, new EntityDwarf.PriceInfo(1, 1))}
-        }    ,
-
-
-
-        {
-            {new EntityDwarf.EmeraldForItems(Items.STRING, new EntityDwarf.PriceInfo(15, 20)), new EntityDwarf.EmeraldForItems(Items.COAL, new EntityDwarf.PriceInfo(16, 24)), new EntityDwarf.ItemAndEmeraldToItem(Items.FISH, new EntityDwarf.PriceInfo(6, 6), Items.COOKED_FISH, new EntityDwarf.PriceInfo(6, 6))},
-            {new EntityDwarf.ListEnchantedItemForEmeralds(Items.FISHING_ROD, new EntityDwarf.PriceInfo(7, 8))}
-        },
-
-
-
-        {
-            {new EntityDwarf.EmeraldForItems(Item.getItemFromBlock(Blocks.WOOL), new EntityDwarf.PriceInfo(16, 22)), new EntityDwarf.ListItemForEmeralds(Items.SHEARS, new EntityDwarf.PriceInfo(3, 4))}, {new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL)), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 1), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 2), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 3), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 4), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 5), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 6), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 7), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 8), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 9), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 10), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 11), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 12), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 13), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 14), new EntityDwarf.PriceInfo(1, 2)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Item.getItemFromBlock(Blocks.WOOL), 1, 15), new EntityDwarf.PriceInfo(1, 2))}
-        }    ,
-
-
-        {
-            {new EntityDwarf.EmeraldForItems(Items.STRING, new EntityDwarf.PriceInfo(15, 20)), new EntityDwarf.ListItemForEmeralds(Items.ARROW, new EntityDwarf.PriceInfo(-12, -8))},
-            {new EntityDwarf.ListItemForEmeralds(Items.BOW, new EntityDwarf.PriceInfo(2, 3)), new EntityDwarf.ItemAndEmeraldToItem(Item.getItemFromBlock(Blocks.GRAVEL), new EntityDwarf.PriceInfo(10, 10), Items.FLINT, new EntityDwarf.PriceInfo(6, 10))}
-        }
-    }  ,
-        {
+            if (this.forcedAgeTimer > 0)
             {
-                {new EntityDwarf.EmeraldForItems(Items.PAPER, new EntityDwarf.PriceInfo(24, 36)), new EntityDwarf.ListEnchantedBookForEmeralds()},
-                {new EntityDwarf.EmeraldForItems(Items.BOOK, new EntityDwarf.PriceInfo(8, 10)), new EntityDwarf.ListItemForEmeralds(Items.COMPASS, new EntityDwarf.PriceInfo(10, 12)), new EntityDwarf.ListItemForEmeralds(Item.getItemFromBlock(Blocks.BOOKSHELF), new EntityDwarf.PriceInfo(3, 4))},
-                {new EntityDwarf.EmeraldForItems(Items.WRITTEN_BOOK, new EntityDwarf.PriceInfo(2, 2)), new EntityDwarf.ListItemForEmeralds(Items.CLOCK, new EntityDwarf.PriceInfo(10, 12)), new EntityDwarf.ListItemForEmeralds(Item.getItemFromBlock(Blocks.GLASS), new EntityDwarf.PriceInfo(-5, -3))},
-                {new EntityDwarf.ListEnchantedBookForEmeralds()},
-                {new EntityDwarf.ListEnchantedBookForEmeralds()},
-                {new EntityDwarf.ListItemForEmeralds(Items.NAME_TAG, new EntityDwarf.PriceInfo(20, 22))}
-                },
+                if (this.forcedAgeTimer % 4 == 0)
+                {
+                    this.world.spawnParticle(EnumParticleTypes.VILLAGER_HAPPY, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, 0.0D, 0.0D, 0.0D);
+                }
 
-            {{new EntityDwarf.EmeraldForItems(Items.PAPER, new EntityDwarf.PriceInfo(24, 36))}, {new EntityDwarf.EmeraldForItems(Items.COMPASS, new EntityDwarf.PriceInfo(1, 1))}, {new EntityDwarf.ListItemForEmeralds(Items.MAP, new EntityDwarf.PriceInfo(7, 11))}, {new EntityDwarf.TreasureMapForEmeralds(new EntityDwarf.PriceInfo(12, 20), "Monument", MapDecoration.Type.MONUMENT), new EntityDwarf.TreasureMapForEmeralds(new EntityDwarf.PriceInfo(16, 28), "Mansion", MapDecoration.Type.MANSION)}}
-            },
-
-
-
-        {{{new EntityDwarf.EmeraldForItems(Items.ROTTEN_FLESH, new EntityDwarf.PriceInfo(36, 40)), new EntityDwarf.EmeraldForItems(Items.GOLD_INGOT, new EntityDwarf.PriceInfo(8, 10))}, {new EntityDwarf.ListItemForEmeralds(Items.REDSTONE, new EntityDwarf.PriceInfo(-4, -1)), new EntityDwarf.ListItemForEmeralds(new ItemStack(Items.DYE, 1, EnumDyeColor.BLUE.getDyeDamage()), new EntityDwarf.PriceInfo(-2, -1))}, {new EntityDwarf.ListItemForEmeralds(Items.ENDER_PEARL, new EntityDwarf.PriceInfo(4, 7)), new EntityDwarf.ListItemForEmeralds(Item.getItemFromBlock(Blocks.GLOWSTONE), new EntityDwarf.PriceInfo(-3, -1))}, {new EntityDwarf.ListItemForEmeralds(Items.EXPERIENCE_BOTTLE, new EntityDwarf.PriceInfo(3, 11))}}},
-
-
-
-        {{{new EntityDwarf.EmeraldForItems(Items.COAL, new EntityDwarf.PriceInfo(16, 24)), new EntityDwarf.ListItemForEmeralds(Items.IRON_HELMET, new EntityDwarf.PriceInfo(4, 6))}, {new EntityDwarf.EmeraldForItems(Items.IRON_INGOT, new EntityDwarf.PriceInfo(7, 9)), new EntityDwarf.ListItemForEmeralds(Items.IRON_CHESTPLATE, new EntityDwarf.PriceInfo(10, 14))}, {new EntityDwarf.EmeraldForItems(Items.DIAMOND, new EntityDwarf.PriceInfo(3, 4)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.DIAMOND_CHESTPLATE, new EntityDwarf.PriceInfo(16, 19))}, {new EntityDwarf.ListItemForEmeralds(Items.CHAINMAIL_BOOTS, new EntityDwarf.PriceInfo(5, 7)), new EntityDwarf.ListItemForEmeralds(Items.CHAINMAIL_LEGGINGS, new EntityDwarf.PriceInfo(9, 11)), new EntityDwarf.ListItemForEmeralds(Items.CHAINMAIL_HELMET, new EntityDwarf.PriceInfo(5, 7)), new EntityDwarf.ListItemForEmeralds(Items.CHAINMAIL_CHESTPLATE, new EntityDwarf.PriceInfo(11, 15))}},
-            {{new EntityDwarf.EmeraldForItems(Items.COAL, new EntityDwarf.PriceInfo(16, 24)), new EntityDwarf.ListItemForEmeralds(Items.IRON_AXE, new EntityDwarf.PriceInfo(6, 8))}, {new EntityDwarf.EmeraldForItems(Items.IRON_INGOT, new EntityDwarf.PriceInfo(7, 9)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.IRON_SWORD, new EntityDwarf.PriceInfo(9, 10))}, {new EntityDwarf.EmeraldForItems(Items.DIAMOND, new EntityDwarf.PriceInfo(3, 4)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.DIAMOND_SWORD, new EntityDwarf.PriceInfo(12, 15)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.DIAMOND_AXE, new EntityDwarf.PriceInfo(9, 12))}}, {{new EntityDwarf.EmeraldForItems(Items.COAL, new EntityDwarf.PriceInfo(16, 24)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.IRON_SHOVEL, new EntityDwarf.PriceInfo(5, 7))}, {new EntityDwarf.EmeraldForItems(Items.IRON_INGOT, new EntityDwarf.PriceInfo(7, 9)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.IRON_PICKAXE, new EntityDwarf.PriceInfo(9, 11))}, {new EntityDwarf.EmeraldForItems(Items.DIAMOND, new EntityDwarf.PriceInfo(3, 4)), new EntityDwarf.ListEnchantedItemForEmeralds(Items.DIAMOND_PICKAXE, new EntityDwarf.PriceInfo(12, 15))}}},
-
-
-
-        {
-            {
-                {new EntityDwarf.EmeraldForItems(Items.PORKCHOP, new EntityDwarf.PriceInfo(14, 18)), new EntityDwarf.EmeraldForItems(Items.CHICKEN, new EntityDwarf.PriceInfo(14, 18))},
-                {new EntityDwarf.EmeraldForItems(Items.COAL, new EntityDwarf.PriceInfo(16, 24)), new EntityDwarf.ListItemForEmeralds(Items.COOKED_PORKCHOP, new EntityDwarf.PriceInfo(-7, -5)), new EntityDwarf.ListItemForEmeralds(Items.COOKED_CHICKEN, new EntityDwarf.PriceInfo(-8, -6))}
-            },
-            {
-                {new EntityDwarf.EmeraldForItems(Items.LEATHER, new EntityDwarf.PriceInfo(9, 12)), new EntityDwarf.ListItemForEmeralds(Items.LEATHER_LEGGINGS, new EntityDwarf.PriceInfo(2, 4))}, {new EntityDwarf.ListEnchantedItemForEmeralds(Items.LEATHER_CHESTPLATE, new EntityDwarf.PriceInfo(7, 12))}, {new EntityDwarf.ListItemForEmeralds(Items.SADDLE, new EntityDwarf.PriceInfo(8, 10))}
+                --this.forcedAgeTimer;
             }
-            },
+        }
+        else
+        {
+            int i = this.getGrowingAge();
+
+            if (i < 0)
+            {
+                ++i;
+                this.setGrowingAge(i);
+
+                if (i == 0)
+                {
+                    this.onGrowingAdult();
+                }
+            }
+            else if (i > 0)
+            {
+                --i;
+                this.setGrowingAge(i);
+            }
+        }
+        if (this.attackTimer > 0)
+        {
+            --this.attackTimer;
+        }
+    }
 
 
-        {new EntityDwarf.ITradeList[0][]}};*/
+    //irongolem
+public boolean attackEntityFrom(DamageSource source, float amount)
+{
+        return super.attackEntityFrom(source, amount);
 
 }
 
-/*profession > 1.miner: sell: redstone, minecart, rails, blasting charge, great pickaxe,
-                        buys: coal, gold, iron, tnt
-               worker: beer, mead, buys wheat, meat.
-               armorer : cartridge, grenade, drakegun, shield, iron, gunpowder,
-               lord : quest for ghal maraz: beer , rotten flesh, prismarine crystals ,nether star > ghal maraz
-               builder: sell: quartz block, bricks, clay, quartz; concrete powder,
-                        buys: andesite granite, diorite
 
-*/
+    public boolean canAttackClass(Class <? extends EntityLivingBase > cls)
+    {
+            return cls != EntityCreeper.class && super.canAttackClass(cls);
+    }
+
+    public boolean attackEntityAsMob(Entity entityIn)
+    {
+        this.attackTimer = 10;
+        this.world.setEntityState(this, (byte)4);
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(4 + this.rand.nextInt(4)));
+
+        if (flag)
+        {
+            this.applyEnchantments(this, entityIn);
+        }
+
+        this.playSound(SoundEvents.ENTITY_PLAYER_ATTACK_STRONG, 1.0F, 1.0F);
+        return flag;
+    }
+    private boolean testrandomsounddelay()
+    {
+
+        if(this.randomSoundDelay > 0 && --this.randomSoundDelay == 0)return true;
+        else {this.randomSoundDelay = this.rand.nextInt(35);return false;}
+
+
+    }
+
+    //illager for combat animation
+    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
+    {
+        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
+    }
+
+
+
+    @SideOnly(Side.CLIENT)
+    public boolean isAggressive(int mask)
+    {
+        int i = this.dataManager.get(AGGRESSIVE);
+        return (i & mask) != 0;
+    }
+
+    protected void setAggressive(int mask, boolean value)
+    {
+        int i = this.dataManager.get(AGGRESSIVE);
+
+        if (value)
+        {
+            i = i | mask;
+        }
+        else
+        {
+            i = i & ~mask;
+        }
+
+        this.dataManager.set(AGGRESSIVE, Byte.valueOf((byte)(i & 255)));
+    }
+
+
+    @SideOnly(Side.CLIENT)
+    public AbstractIllager.IllagerArmPose getArmPose()
+    {
+        return this.isAggressive(1) ? AbstractIllager.IllagerArmPose.ATTACKING : AbstractIllager.IllagerArmPose.CROSSED;
+    }
+
+}
