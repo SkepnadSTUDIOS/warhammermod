@@ -46,13 +46,13 @@ public class ModelDwarf extends ModelBiped
         this.villagerNose.setTextureOffset(24, 0).addBox(-1.0F, 2.0F, -6.0F, 2, 4, 2, scale);
         this.villagerbeard= (new ModelRenderer(this)).setTextureSize(width,height);
         this.villagerbeard.setRotationPoint(0.0F, p_i1164_2_ - 2.0F, 0.0F);
-        this.villagerbeard.setTextureOffset(40,48).addBox(-4.0F,6.0F,-5.0F,8,6,1);
+        this.villagerbeard.setTextureOffset(36,38).addBox(-4.0F,6.0F,-5.0F,8,6,1);
         this.villagermustache1= (new ModelRenderer(this)).setTextureSize(width,height);
         this.villagermustache1.setRotationPoint(0.0F, p_i1164_2_ - 2.0F, 0.0F);
-        this.villagermustache1.setTextureOffset(40,48).addBox(-4.0F,3.0F,-5.0F,2,3,1);
-        this.villagermustache1.setTextureOffset(40,48).addBox(2.0F,3.0F,-5.0F,2,3,1);
-        this.villagermustache1.setTextureOffset(40,48).addBox(-2.0F,3.0F,-5.0F,1,1,1);
-        this.villagermustache1.setTextureOffset(40,48).addBox(1.0F,3.0F,-5.0F,1,1,1);
+        this.villagermustache1.setTextureOffset(36,38).addBox(-4.0F,3.0F,-5.0F,2,3,1);
+        this.villagermustache1.setTextureOffset(36,38).addBox(2.0F,3.0F,-5.0F,2,3,1);
+        this.villagermustache1.setTextureOffset(36,38).addBox(-2.0F,3.0F,-5.0F,1,1,1);
+        this.villagermustache1.setTextureOffset(36,38).addBox(1.0F,3.0F,-5.0F,1,1,1);
         this.villagerHead.addChild(this.villagerbeard);
         this.villagerHead.addChild(this.villagermustache1);
         this.villagerHead.addChild(this.villagerNose);
@@ -62,25 +62,25 @@ public class ModelDwarf extends ModelBiped
         this.villagerBody.setTextureOffset(0, 38).addBox(-5.0F, 4.0F, -3.0F, 10, 16, 7, scale + 0.5F);
         this.villagerArms = (new ModelRenderer(this)).setTextureSize(width, height);
         this.villagerArms.setRotationPoint(0.0F, 0.0F + p_i1164_2_ + 2.0F, 0.0F);
-        this.villagerArms.setTextureOffset(44, 22).addBox(-8.0F, 1.0F, 1.0F, 4, 8, 4, scale);
-        this.villagerArms.setTextureOffset(44, 22).addBox(4.0F, 1.0F, 1.0F, 4, 8, 4, scale);
-        this.villagerArms.setTextureOffset(40, 38).addBox(-4.0F, 5.0F, 1.0F, 8, 4, 4, scale);
-        this.rightVillagerLeg = (new ModelRenderer(this, 35, 3)).setTextureSize(width, height);
+        this.villagerArms.setTextureOffset(40, 16).addBox(-8.0F, 1.0F, 1.0F, 4, 8, 4, scale);
+        this.villagerArms.setTextureOffset(40, 16).addBox(4.0F, 1.0F, 1.0F, 4, 8, 4, scale);
+        this.villagerArms.setTextureOffset(36, 29).addBox(-4.0F, 5.0F, 1.0F, 8, 4, 4, scale);
+        this.rightVillagerLeg = (new ModelRenderer(this, 34, 0)).setTextureSize(width, height);
         this.rightVillagerLeg.setRotationPoint(-2.0F, 12.0F + p_i1164_2_, 0.0F);
         this.rightVillagerLeg.addBox(-3F, 2.0F, -2.0F, 5, 10, 5, scale);
-        this.leftVillagerLeg = (new ModelRenderer(this, 35, 3)).setTextureSize(width, height);
+        this.leftVillagerLeg = (new ModelRenderer(this, 34, 0)).setTextureSize(width, height);
         this.leftVillagerLeg.mirror = true;
         this.leftVillagerLeg.setRotationPoint(2.0F, 12.0F + p_i1164_2_, 0.0F);
         this.leftVillagerLeg.addBox(-2F, 2.0F, -2.0F, 5, 10, 5, scale);
         //this.bipedHeadwear = new ModelRenderer(this, 32, 0);
         //this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, scale + 0.5F);
         //this.bipedHeadwear.setRotationPoint(0.0F, 0.0F + p_i1164_2_, 0.0F);
-        this.rightArm = (new ModelRenderer(this, 36, 56)).setTextureSize(width, height);
-        this.rightArm.addBox(-3F, -7F, -0.2F, 10, 4, 4, scale);
+        this.rightArm = (new ModelRenderer(this, 35, 46)).setTextureSize(width, height);
+        this.rightArm.addBox(-3F, -2F, 2F, 4, 10, 4, scale);
         this.rightArm.setRotationPoint(-5.0F, 2.0F + p_i1164_2_, 0.0F);
-        this.leftArm = (new ModelRenderer(this, 36, 56)).setTextureSize(width, height);
+        this.leftArm = (new ModelRenderer(this, 35, 46)).setTextureSize(width, height);
         this.leftArm.mirror = true;
-        this.leftArm.addBox(-12.0F, 3.0F, -3.8F, 10, 4, 4, scale);
+        this.leftArm.addBox(-1.0F, 2.0F, -2F, 4, 10, 4, scale);
         this.leftArm.setRotationPoint(5.0F, 2.0F + p_i1164_2_, 0.0F);
     }
 
@@ -94,7 +94,6 @@ public class ModelDwarf extends ModelBiped
         this.villagerBody.render(scale);
         this.rightVillagerLeg.render(scale);
         this.leftVillagerLeg.render(scale);
-        //this.villagerArms.render(scale+0.009F);
 
         if(entityIn instanceof EntityDwarf){
         EntityDwarf entityDwarf = (EntityDwarf)entityIn;
@@ -134,13 +133,11 @@ public class ModelDwarf extends ModelBiped
             {
                 float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
                 float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
-                this.leftArm.rotateAngleX = 1.5707963267948966F;
-                this.leftArm.rotateAngleY = -1.5707963267948966F/2;
-                this.leftArm.rotateAngleZ = -1.5707963267948966F;
-                this.rightArm.rotateAngleX = 1.5707963267948966F;
-                this.rightArm.rotateAngleY = 1.134464014F;
-                this.rightArm.rotateAngleZ = -1.5707963267948966F;
-                /* //not necessary only for fancy arms movement
+                this.rightArm.rotateAngleZ = 0.0F;
+                this.leftArm.rotateAngleZ = 0.0F;
+                this.rightArm.rotateAngleY = 0.15707964F;
+                this.leftArm.rotateAngleY = -0.15707964F;
+
                 if (((EntityLivingBase)entityIn).getPrimaryHand() == EnumHandSide.RIGHT)
                 {
                     this.rightArm.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
@@ -159,7 +156,7 @@ public class ModelDwarf extends ModelBiped
                 this.rightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
                 this.leftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
                 this.rightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-                this.leftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;*/
+                this.leftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
             }
         }
 
