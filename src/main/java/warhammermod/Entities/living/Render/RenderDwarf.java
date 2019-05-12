@@ -1,13 +1,17 @@
 package warhammermod.Entities.living.Render;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.model.ModelIllager;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.entity.RenderLiving;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.layers.LayerHeldItem;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntityVindicator;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumHandSide;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
@@ -25,11 +29,11 @@ public class RenderDwarf extends RenderLiving<EntityDwarf>
     public RenderDwarf(RenderManager renderManagerIn)
     {
         super(renderManagerIn, new ModelDwarf(0.0F), 0.5F);
-        this.addLayer(new LayerHeldItem(this)
+        this.addLayer(new LayerHeldItemDwarf(this)
         {
             public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
             {
-                if (((EntityDwarf)entitylivingbaseIn).isAggressive(1))
+                if (!((EntityDwarf)entitylivingbaseIn).isAggressive(1))
                 {
                     super.doRenderLayer(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
                 }
@@ -75,4 +79,5 @@ public class RenderDwarf extends RenderLiving<EntityDwarf>
 
         GlStateManager.scale(f, f, f);
     }
+
 }

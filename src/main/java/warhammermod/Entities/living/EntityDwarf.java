@@ -245,6 +245,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         }
         super.updateAITasks();
         if(getAttackTarget()!=null){
+            System.out.println(getAttackTarget());
             this.playSound(SoundEvents.ENTITY_VILLAGER_NO, this.getSoundVolume() * 1.0F, (this.rand.nextFloat() * 0.2F + 0.5F));
         }
 
@@ -1343,7 +1344,7 @@ public boolean attackEntityFrom(DamageSource source, float amount)
     {
 
         if(this.randomSoundDelay > 0 && --this.randomSoundDelay == 0)return true;
-        else {this.randomSoundDelay = this.rand.nextInt(35);return false;}
+        else {this.randomSoundDelay = this.rand.nextInt(2000);return false;}
 
 
     }
@@ -1352,6 +1353,7 @@ public boolean attackEntityFrom(DamageSource source, float amount)
     protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
     {
         this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
+        this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND,new ItemStack(Itemsinit.shield4));
     }
 
 

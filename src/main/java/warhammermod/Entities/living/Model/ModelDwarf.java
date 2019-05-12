@@ -75,12 +75,12 @@ public class ModelDwarf extends ModelBiped
         //this.bipedHeadwear = new ModelRenderer(this, 32, 0);
         //this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8, 8, 8, scale + 0.5F);
         //this.bipedHeadwear.setRotationPoint(0.0F, 0.0F + p_i1164_2_, 0.0F);
-        this.rightArm = (new ModelRenderer(this, 40, 46)).setTextureSize(width, height);
-        this.rightArm.addBox(-3.0F, -2.0F, -2.0F, 4, 12, 4, scale);
+        this.rightArm = (new ModelRenderer(this, 36, 56)).setTextureSize(width, height);
+        this.rightArm.addBox(-3F, -7F, -0.2F, 10, 4, 4, scale);
         this.rightArm.setRotationPoint(-5.0F, 2.0F + p_i1164_2_, 0.0F);
-        this.leftArm = (new ModelRenderer(this, 40, 46)).setTextureSize(width, height);
+        this.leftArm = (new ModelRenderer(this, 36, 56)).setTextureSize(width, height);
         this.leftArm.mirror = true;
-        this.leftArm.addBox(-1.0F, -2.0F, -2.0F, 4, 12, 4, scale);
+        this.leftArm.addBox(-12.0F, 3.0F, -3.8F, 10, 4, 4, scale);
         this.leftArm.setRotationPoint(5.0F, 2.0F + p_i1164_2_, 0.0F);
     }
 
@@ -98,7 +98,7 @@ public class ModelDwarf extends ModelBiped
 
         if(entityIn instanceof EntityDwarf){
         EntityDwarf entityDwarf = (EntityDwarf)entityIn;
-        if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.CROSSED)
+        if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.ATTACKING)
         {
             this.villagerArms.render(scale+0.009F);
 
@@ -106,8 +106,8 @@ public class ModelDwarf extends ModelBiped
         else
         {
 
-            this.rightArm.render(scale);
-            this.leftArm.render(scale);
+            this.rightArm.render(scale+0.009F);
+            this.leftArm.render(scale+0.009F);
         }
         }
     }
@@ -130,15 +130,17 @@ public class ModelDwarf extends ModelBiped
 
         if(entityIn instanceof EntityDwarf){
             EntityDwarf entityDwarf = (EntityDwarf)entityIn;
-            if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.ATTACKING)
+            if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.CROSSED)
             {
                 float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
                 float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);
-                this.rightArm.rotateAngleZ = 0.0F;
-                this.leftArm.rotateAngleZ = 0.0F;
-                this.rightArm.rotateAngleY = 0.15707964F;
-                this.leftArm.rotateAngleY = -0.15707964F;
-
+                this.leftArm.rotateAngleX = 1.5707963267948966F;
+                this.leftArm.rotateAngleY = -1.5707963267948966F/2;
+                this.leftArm.rotateAngleZ = -1.5707963267948966F;
+                this.rightArm.rotateAngleX = 1.5707963267948966F;
+                this.rightArm.rotateAngleY = 1.134464014F;
+                this.rightArm.rotateAngleZ = -1.5707963267948966F;
+                /* //not necessary only for fancy arms movement
                 if (((EntityLivingBase)entityIn).getPrimaryHand() == EnumHandSide.RIGHT)
                 {
                     this.rightArm.rotateAngleX = -1.8849558F + MathHelper.cos(ageInTicks * 0.09F) * 0.15F;
@@ -157,7 +159,7 @@ public class ModelDwarf extends ModelBiped
                 this.rightArm.rotateAngleZ += MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
                 this.leftArm.rotateAngleZ -= MathHelper.cos(ageInTicks * 0.09F) * 0.05F + 0.05F;
                 this.rightArm.rotateAngleX += MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
-                this.leftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;
+                this.leftArm.rotateAngleX -= MathHelper.sin(ageInTicks * 0.067F) * 0.05F;*/
             }
         }
 
