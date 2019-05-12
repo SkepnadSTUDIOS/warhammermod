@@ -97,7 +97,7 @@ public class ModelDwarf extends ModelBiped
 
         if(entityIn instanceof EntityDwarf){
         EntityDwarf entityDwarf = (EntityDwarf)entityIn;
-        if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.ATTACKING)
+        if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.CROSSED)
         {
             this.villagerArms.render(scale+0.009F);
 
@@ -129,7 +129,7 @@ public class ModelDwarf extends ModelBiped
 
         if(entityIn instanceof EntityDwarf){
             EntityDwarf entityDwarf = (EntityDwarf)entityIn;
-            if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.CROSSED)
+            if (entityDwarf.getArmPose()== AbstractIllager.IllagerArmPose.ATTACKING)
             {
                 float f = MathHelper.sin(this.swingProgress * (float)Math.PI);
                 float f1 = MathHelper.sin((1.0F - (1.0F - this.swingProgress) * (1.0F - this.swingProgress)) * (float)Math.PI);

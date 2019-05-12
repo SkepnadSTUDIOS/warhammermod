@@ -33,7 +33,7 @@ public class RenderDwarf extends RenderLiving<EntityDwarf>
         {
             public void doRenderLayer(EntityLivingBase entitylivingbaseIn, float limbSwing, float limbSwingAmount, float partialTicks, float ageInTicks, float netHeadYaw, float headPitch, float scale)
             {
-                if (!((EntityDwarf)entitylivingbaseIn).isAggressive(1))
+                if (((EntityDwarf)entitylivingbaseIn).isAggressive(1))
                 {
                     super.doRenderLayer(entitylivingbaseIn, limbSwing, limbSwingAmount, partialTicks, ageInTicks, netHeadYaw, headPitch, scale);
                 }

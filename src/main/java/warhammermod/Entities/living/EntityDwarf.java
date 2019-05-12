@@ -116,10 +116,6 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     protected void initEntityAI()
     {
         this.tasks.addTask(0, new EntityAISwimming(this));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityZombie.class, 8.0F, 0.6D, 0.6D));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityEvoker.class, 12.0F, 0.8D, 0.8D));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityVindicator.class, 8.0F, 0.8D, 0.8D));
-        this.tasks.addTask(1, new EntityAIAvoidEntity(this, EntityVex.class, 8.0F, 0.6D, 0.6D));
         this.tasks.addTask(1, new EntityAIDTradePlayer(this));
         this.tasks.addTask(1, new EntityAIDLookAtTradePlayer(this));
         this.tasks.addTask(2, new EntityAIMoveIndoors(this));
@@ -185,6 +181,8 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.5D);
         this.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).setBaseValue(5.0D);
         this.getEntityAttribute(SharedMonsterAttributes.FOLLOW_RANGE).setBaseValue(12.0D);
+        this.getEntityAttribute(SharedMonsterAttributes.ARMOR).setBaseValue(6);
+
     }
 
     protected void updateAITasks()
@@ -244,8 +242,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
             }
         }
         super.updateAITasks();
-        if(getAttackTarget()!=null){
-            System.out.println(getAttackTarget());
+        if(getAttackTarget()!=null &&testrandomsounddelay()){
             this.playSound(SoundEvents.ENTITY_VILLAGER_NO, this.getSoundVolume() * 1.0F, (this.rand.nextFloat() * 0.2F + 0.5F));
         }
 
@@ -794,12 +791,11 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
     @Nullable
     public IEntityLivingData onInitialSpawn(DifficultyInstance difficulty, @Nullable IEntityLivingData livingdata)
     {
-        this.setEquipmentBasedOnDifficulty(difficulty);
-        this.setEnchantmentBasedOnDifficulty(difficulty);
-        return this.finalizeMobSpawn(difficulty, livingdata, true);
+
+        return this.finalizeMobSpawn(difficulty, livingdata,true);
     }
 
-    public IEntityLivingData finalizeMobSpawn(DifficultyInstance p_190672_1_, @Nullable IEntityLivingData p_190672_2_, boolean p_190672_3_)
+    public IEntityLivingData finalizeMobSpawn(DifficultyInstance p_190672_1_, @Nullable IEntityLivingData p_190672_2_,boolean p_190672_3_)
     {
         p_190672_2_ = super.onInitialSpawn(p_190672_1_, p_190672_2_);
 
@@ -810,7 +806,10 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
 
         this.setAdditionalAItasks();
         this.populateBuyingList();
+        this.setEquipmentBasedOnprofession(getProfession());
+        this.setEnchantmentBasedOnDifficulty(p_190672_1_);
         return p_190672_2_;
+
     }
 
     public void setLookingForHome()
@@ -1235,7 +1234,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
 
     public int getProfession()
     {
-        return Math.max(((Integer)this.dataManager.get(DWARF_PROFESSION)).intValue(), 0);
+        return Math.max(((Integer)this.dataManager.get(DWARF_PROFESSION)).intValue(), 0);//0farmer,1miner,2we,3builder,4lord
     }
 
     public void setProfession(int professionId)
@@ -1246,7 +1245,7 @@ public class EntityDwarf extends EntityAgeable implements INpc, IMerchant
         int random = new Random().nextInt(5);
         int lordrate;
         if(random==4){
-            if((lordrate = new Random().nextInt(10))<4){dataManager.set(DWARF_PROFESSION,Integer.valueOf(random));}
+            if((lordrate = new Random().nextInt(10))<5){dataManager.set(DWARF_PROFESSION,Integer.valueOf(random));}
         }
         else dataManager.set(DWARF_PROFESSION,Integer.valueOf(random));
     }
@@ -1328,9 +1327,9 @@ public boolean attackEntityFrom(DamageSource source, float amount)
 
     public boolean attackEntityAsMob(Entity entityIn)
     {
-        this.attackTimer = 10;
+        this.attackTimer = 7;
         this.world.setEntityState(this, (byte)4);
-        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(4 + this.rand.nextInt(4)));
+        boolean flag = entityIn.attackEntityFrom(DamageSource.causeMobDamage(this), (float)(10 + this.rand.nextInt(4)));
 
         if (flag)
         {
@@ -1344,16 +1343,23 @@ public boolean attackEntityFrom(DamageSource source, float amount)
     {
 
         if(this.randomSoundDelay > 0 && --this.randomSoundDelay == 0)return true;
-        else {this.randomSoundDelay = this.rand.nextInt(2000);return false;}
+        else {this.randomSoundDelay = this.rand.nextInt(60);return false;}
 
 
     }
 
     //illager for combat animation
-    protected void setEquipmentBasedOnDifficulty(DifficultyInstance difficulty)
+    protected void setEquipmentBasedOnprofession(int prof) //0farmer,1miner,2we,3builder,4lord
     {
-        this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
-        this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND,new ItemStack(Itemsinit.shield4));
+        switch(prof){
+            case 1:this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Itemsinit.GREAT_PICKAXE));break;
+            case 4:this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Itemsinit.diamond_warhammer));
+            this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND,new ItemStack(Itemsinit.shield4));break;
+            default:this.setItemStackToSlot(EntityEquipmentSlot.OFFHAND,new ItemStack(Itemsinit.shield4));
+            this.setItemStackToSlot(EntityEquipmentSlot.MAINHAND, new ItemStack(Items.IRON_AXE));
+        }
+
+
     }
 
 
