@@ -1,7 +1,6 @@
 package warhammermod.Entities.living;
 
 import com.google.common.base.Predicate;
-import com.sun.istack.internal.Nullable;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentData;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -52,6 +51,8 @@ import org.apache.logging.log4j.Logger;
 import warhammermod.Entities.living.Emanager.*;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 import warhammermod.util.utils;
+
+import javax.annotation.Nullable;
 import java.util.Locale;
 import java.util.Random;
 
