@@ -19,7 +19,6 @@ import net.minecraft.world.World;
 import warhammermod.Entities.Entityspear;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 import warhammermod.util.confighandler.confighandler;
-import warhammermod.util.confighandler.confighandler.getvalues;
 
 import java.util.Set;
 
@@ -29,7 +28,7 @@ public class speartemplate extends ItemTool {
     private final float throwingdamage;
 
     public speartemplate(String name, Item.ToolMaterial material) {
-        super(getvalues.getspd, -getvalues.getsps, material, EFFECTIVE_ON);
+        super((float)confighandler.Config_values.spear_damage, (float)-confighandler.Config_values.spear_speed, material, EFFECTIVE_ON);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);

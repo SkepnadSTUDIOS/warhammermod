@@ -8,7 +8,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemTool;
 import warhammermod.util.Handler.inithandler.Itemsinit;
 import warhammermod.util.confighandler.confighandler;
-import warhammermod.util.confighandler.confighandler.getvalues;
+import warhammermod.util.confighandler.confighandler.Config_values;
+
 
 import java.util.Set;
 
@@ -17,7 +18,7 @@ public class knifetemplate extends ItemTool {
     private static final Set<Block> EFFECTIVE_ON = Sets.newHashSet();
 
     public knifetemplate(String name, Item.ToolMaterial material){
-        super(getvalues.getknd, -getvalues.getkns, material, EFFECTIVE_ON);
+        super((float)Config_values.knife_damage, (float)-Config_values.knife_speed, material, EFFECTIVE_ON);
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);

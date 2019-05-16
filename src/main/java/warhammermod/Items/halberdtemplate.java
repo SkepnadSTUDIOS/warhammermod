@@ -38,8 +38,8 @@ public class halberdtemplate extends ItemSword {
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
-        attackSpeed=-confighandler.getvalues.gethbs;
-        this.attackdamage = confighandler.getvalues.gethbd + material.getAttackDamage();
+        attackSpeed=(float)-confighandler.Config_values.halberd_speed;
+        this.attackdamage = (float)confighandler.Config_values.halberd_damage + material.getAttackDamage();
         damagesourcethrow = confighandler.Config_enable.headshotmod_compatibility;
 
         if(confighandler.Config_enable.halberds_included){Itemsinit.ITEMS.add(this);}

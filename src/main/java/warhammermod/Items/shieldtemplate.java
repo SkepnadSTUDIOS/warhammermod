@@ -17,6 +17,7 @@ import warhammermod.Entities.render.RenderShieldEM;
 import warhammermod.Entities.render.RenderShieldHE;
 import warhammermod.Entities.render.RendershieldDE;
 import warhammermod.util.Handler.inithandler.Itemsinit;
+import warhammermod.util.confighandler.confighandler;
 
 import javax.annotation.Nullable;
 import java.util.List;
@@ -26,10 +27,10 @@ import static net.minecraftforge.fml.relauncher.Side.CLIENT;
 
 public class shieldtemplate extends ItemShield {
     private String shield_name;
-    public shieldtemplate(String name,int durability,boolean enabled){
+    public shieldtemplate(String name,boolean enabled){
         super();
 
-        setMaxDamage(durability);
+        setMaxDamage(confighandler.Config_values.shields_durability);
         setUnlocalizedName(name);
         setRegistryName(name);
         shield_name=name;

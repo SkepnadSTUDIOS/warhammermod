@@ -33,10 +33,9 @@ public class DrakeGunTemplate extends ItemBow {
 
 
     public boolean needtoreload;
-    public int damage;
 
 
-    public DrakeGunTemplate(String name, int MagSize, int time, int damagein, boolean enabled) {
+    public DrakeGunTemplate(String name, int MagSize, int time, boolean enabled) {
         setUnlocalizedName(name);
         setRegistryName(name);
         if(enabled){ Itemsinit.ITEMS.add(this);}
@@ -45,7 +44,7 @@ public class DrakeGunTemplate extends ItemBow {
         timetoreload = time;
         this.maxStackSize = 1;
         this.setMaxDamage(200);
-        damage = damagein;
+
         this.addPropertyOverride(new ResourceLocation("reloading"), new IItemPropertyGetter()
         {
             @SideOnly(Side.CLIENT)

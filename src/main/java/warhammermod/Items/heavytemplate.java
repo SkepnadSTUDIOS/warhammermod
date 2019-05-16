@@ -27,8 +27,8 @@ public class heavytemplate extends ItemSword {
         setUnlocalizedName(name);
         setCreativeTab(CreativeTabs.COMBAT);
         setRegistryName(name);
-        attackSpeed=-confighandler.getvalues.getwhs;
-        this.attackdamage = confighandler.getvalues.getwhs + material.getAttackDamage()*2F;
+        attackSpeed=(float)-confighandler.Config_values.warhammer_damage;
+        this.attackdamage = (float)confighandler.Config_values.warhammer_speed + material.getAttackDamage()*2F;
 
         if(confighandler.Config_enable.hammers_included){Itemsinit.ITEMS.add(this);}
     }
